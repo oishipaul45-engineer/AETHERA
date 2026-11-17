@@ -1,0 +1,181 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AETHERA — The Library of Unspoken Things</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');*{box-sizing:border-box}body{margin:0;background:#130e19;color:#fff0dc;font-family:'DM Sans',sans-serif;overflow:hidden}button{cursor:pointer;font:inherit}#scene{position:fixed;inset:0}#veil{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 35%,transparent 35%,rgba(15,7,20,.5) 100%)}.top{position:fixed;top:24px;left:30px;right:30px;display:flex;align-items:flex-start;justify-content:space-between;pointer-events:none}.brand{font:600 32px 'Cormorant Garamond',serif;letter-spacing:.26em;text-shadow:0 2px 18px #000}.sub{font-size:9px;letter-spacing:.34em;color:#e2c6b7}.pill{pointer-events:auto;border:1px solid #e8cda277;border-radius:40px;background:#261b2bd9;color:#f6dfbf;padding:11px 18px}.hint{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#211626c9;border:1px solid #d6a97966;border-radius:50px;padding:12px 22px;color:#e8d2bb;font-size:12px;white-space:nowrap}.modal{position:fixed;inset:0;display:grid;place-items:center;background:rgba(9,5,16,.78);backdrop-filter:blur(11px);z-index:10}.hidden{display:none!important}.entry{width:min(600px,92vw);text-align:center;background:linear-gradient(140deg,#39233d,#1a172b);border:1px solid #d7ad7a77;box-shadow:0 20px 110px #000b,inset 0 0 65px #a87a4b16;border-radius:24px;padding:35px 35px 40px}.entry h1{font:500 clamp(40px,7vw,72px) 'Cormorant Garamond',serif;margin:4px 0}.entry p{line-height:1.8;color:#e4cad5}.key{font-size:68px;filter:drop-shadow(0 0 20px #f6c66c);animation:float 3s ease-in-out infinite}.symbols{display:flex;justify-content:center;gap:18px;margin:24px}.symbol{font-size:33px;border:1px solid #c4a0ba;background:#ffffff10;color:#f4d4e8;border-radius:50%;width:75px;height:75px;transition:.25s}.symbol:hover{transform:translateY(-6px);background:#af739650;box-shadow:0 0 30px #d29b9d55}.gold{background:linear-gradient(110deg,#a97038,#f3d6a2,#b68145);border:0;color:#34201b;padding:13px 27px;border-radius:40px;font-weight:600}.error{min-height:22px;color:#f2c0c8}.bookview{width:min(1060px,95vw);max-height:95vh;overflow:auto;background:linear-gradient(145deg,#32223b,#151320);border:1px solid #bfa07877;border-radius:20px;padding:18px 24px 24px;box-shadow:0 20px 90px #000c}.bookhead{display:flex;justify-content:space-between;align-items:center;gap:20px}.bookhead h2{font:500 37px 'Cormorant Garamond',serif;margin:0}.close{border:1px solid #ffffff55;background:transparent;color:white;border-radius:40px;padding:9px 17px}.spread{display:flex;min-height:480px;margin:18px auto;max-width:900px;perspective:1500px;filter:drop-shadow(0 15px 25px #0009)}.page{width:50%;min-height:480px;padding:36px 36px 28px;position:relative;overflow:hidden;background:linear-gradient(120deg,#f8e7d9,#e9d3df 70%,#d5bbd7);color:#493447;border:1px solid #b98f9d;box-shadow:inset 0 0 45px #a87e9e40}.page:first-child{border-radius:8px 0 0 8px;box-shadow:inset -15px 0 28px #93758955}.page:last-child{border-radius:0 8px 8px 0;box-shadow:inset 15px 0 28px #93758955}.page:before{content:'✦  ❀  ✧  ☾  ✦';position:absolute;top:15px;left:18px;right:18px;text-align:center;letter-spacing:20px;color:#ae7995;font-size:13px}.page:after{content:'';position:absolute;inset:12px;border:1px solid #c49aa580;pointer-events:none}.page h3{font:600 38px 'Cormorant Garamond',serif;margin:20px 0 12px}.page p{font:500 22px/1.65 'Cormorant Garamond',serif;white-space:pre-line}.ornament{font-size:80px;text-align:center;margin:20px 0;filter:drop-shadow(0 5px 8px #ad7b9b66)}.page small{position:absolute;bottom:18px;right:25px;color:#956d83}.turn-next .page:last-child{animation:turnNext .8s ease-in-out;transform-origin:left center;z-index:2}.turn-prev .page:first-child{animation:turnPrev .8s ease-in-out;transform-origin:right center;z-index:2}@keyframes turnNext{0%{transform:rotateY(0)}50%{transform:rotateY(-88deg)}100%{transform:rotateY(0)}}@keyframes turnPrev{0%{transform:rotateY(0)}50%{transform:rotateY(88deg)}100%{transform:rotateY(0)}}@keyframes float{50%{transform:translateY(-12px)}}.controls{display:flex;justify-content:center;align-items:center;gap:20px}.controls button{background:#d8a5b8;color:#2b1a29;border:0;border-radius:30px;padding:12px 22px}.controls button:disabled{opacity:.35;cursor:default}.controls span{font-size:12px;color:#e4c7d4}.notice{position:fixed;top:95px;left:50%;transform:translateX(-50%);background:#2d1b2de8;border:1px solid #cda677;border-radius:20px;padding:10px 18px;pointer-events:none;opacity:0;transition:opacity .25s;font-size:13px}.notice.show{opacity:1}@media(max-width:650px){.brand{font-size:23px}.top{left:14px;right:14px}.spread{min-height:340px}.page{min-height:340px;padding:25px 15px}.page h3{font-size:25px}.page p{font-size:16px}.ornament{font-size:42px}.bookview{padding:15px}.bookhead h2{font-size:25px}.hint{font-size:10px;white-space:normal;text-align:center;width:90%}}
+</style><script>
+/* AETHERA_RENDER_DIAGNOSTIC */
+(function () {
+  function show(message) {
+    let panel = document.getElementById("aethera-debug");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "aethera-debug";
+      panel.style.cssText =
+        "position:fixed;z-index:999999;top:22%;left:10%;" +
+        "width:80%;padding:24px;background:#301725;" +
+        "border:2px solid #ffb4a2;border-radius:16px;" +
+        "color:white;font:16px Arial;white-space:pre-wrap;" +
+        "overflow-wrap:anywhere;max-height:60vh;overflow:auto";
+      document.body.appendChild(panel);
+    }
+
+    panel.textContent = "AETHERA 3D ERROR:\n\n" + message;
+  }
+
+  window.addEventListener("error", function (e) {
+    show(e.message + "\n" + (e.filename || "") + ":" + e.lineno);
+  });
+
+  window.addEventListener("unhandledrejection", function (e) {
+    show(String(e.reason?.stack || e.reason));
+  });
+
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      const canvas = document.querySelector("#scene canvas");
+
+      if (!canvas && !document.getElementById("aethera-debug")) {
+        show("No 3D canvas was created. The Three.js module may have failed to load or initialize.");
+      }
+    }, 4000);
+  });
+})();
+</script>
+<!-- AETHERA RENDER VISIBILITY REPAIR -->
+<style>
+canvas {
+    display: block !important;
+    visibility: visible !important;
+}
+body {
+    overflow: hidden;
+}
+</style>
+</head><body><div id="scene"></div><div id="veil"></div><div class="top"><div><div class="brand">AETHERA</div><div class="sub">THE LIBRARY OF UNSPOKEN THINGS</div></div><button class="pill" id="sound">♫ Sound: On</button></div><div class="hint" id="hint">Drag to look around · W A S D to wander · Click a glowing book to read</div><div class="notice" id="notice"></div><div class="modal" id="entrance"><div class="entry"><div class="key" id="keyIcon">✧</div><div class="sub">THE DOOR REMEMBERS ONLY THE BRAVE</div><h1>The Forgotten Constellation</h1><p id="riddle">“First the night that guards our secrets,<br>then the love that makes them glow,<br>last the light that lets them go.”</p><div class="symbols" id="symbols"><button class="symbol" data-s="star" title="Light">✦</button><button class="symbol" data-s="moon" title="Moon">☾</button><button class="symbol" data-s="heart" title="Heart">♡</button></div><div class="error" id="error">Choose the three symbols in the order of the poem.</div><button class="gold hidden" id="unlock">Take the golden key & enter ✧</button></div></div><div class="modal hidden" id="bookModal"><div class="bookview"><div class="bookhead"><h2 id="bookTitle"></h2><button class="close" id="close">✕ Close book</button></div><div class="spread" id="spread"><article class="page" id="left"></article><article class="page" id="right"></article></div><div class="controls"><button id="prev">← Previous</button><span id="count"></span><button id="next">Next →</button></div></div></div>
+<script type="module">
+import * as THREE from './three.module.js';
+const stories=[
+{title:'The Book of Us',color:0x94618e,pages:[['The First Hello','There are days that change nothing, and days that quietly change everything.\n\nOurs began like any ordinary day.','✉'],['The Smallest Things','I remember the way laughter arrived before words. The way silence became comfortable. The way a moment could feel like home.','❀'],['A Place Between Moments','We never needed a perfect story. Just a thousand imperfect moments that somehow belonged together.','♡'],['What Remains','If every photograph faded, I think I would still remember how it felt to be there.','☾']]},
+{title:'Things I Never Said',color:0x6c789d,pages:[['An Unsent Letter','Dear you,\n\nI wrote this sentence a hundred times and never found the courage to send it.','✉'],['Between the Lines','Some feelings are too delicate for a conversation. So we hide them in songs, in glances, in almosts.','✧'],['The Other Side','Maybe the words were never meant to be spoken. Maybe they were meant to teach me what mattered.','🕊'],['Finally','I hope you know: somewhere, someone was grateful you existed.','♡']]},
+{title:'Letters to the Moon',color:0x7370a2,pages:[['Dear Moon','Tonight I am writing to the one thing that has watched every version of me.','☾'],['A Quiet Confession','I am learning that growing up is not becoming fearless. It is learning to carry fear gently.','✦'],['A Little Wish','Please keep a light on for the dreams I have not dared to name.','🌙'],['Until Tomorrow','The sky will change. So will I. But there will always be another night to begin again.','✧']]},
+{title:'Little Joys',color:0xb87a83,pages:[['A Catalogue of Sunshine','Warm tea on a rainy afternoon. Fresh sheets. A message that arrives at just the right time.','☕'],['Found Treasures','A pressed flower between pages. A silly photograph. A note written on the back of a receipt.','❀'],['The Ordinary Miracle','The world is full of tiny beautiful things asking only to be noticed.','✿'],['Keep This Page','When everything feels heavy, return here. There is still sweetness in the smallest places.','♡']]},
+{title:'Dear Future Me',color:0x937caa,pages:[['A Letter Across Time','Hello, stranger who is also me. I hope you are reading this somewhere with sunlight.','✉'],['What I Hope You Kept','Your curiosity. Your tenderness. The habit of looking up at the stars.','✦'],['What You May Leave Behind','The need to be perfect. The fear of beginning. The stories that made you smaller.','🦋'],['With Love','You do not have to become someone else to deserve a beautiful life.','♡']]},
+{title:'The Days I Miss',color:0x9c7968,pages:[['An Old Afternoon','The light was golden. No one knew it would become a memory.','☀'],['Photographs Without Sound','I can still imagine the voices outside the frame, the laughter just before the camera clicked.','📷'],['A Gentle Ache','Missing something is another way of saying it mattered.','❀'],['A Place to Return','Not every door opens backward. But stories let us visit for a little while.','✉']]},
+{title:'My Favourite People',color:0xa87495,pages:[['A Constellation of Names','Some people enter our lives like stars: quietly, and then suddenly the whole sky looks different.','✦'],['Their Small Magic','They remember how you take your tea. They notice when your smile is borrowed.','♡'],['An Invisible Thread','Distance cannot erase the way certain people make us feel understood.','🧵'],['Thank You','For being a soft place in a loud world.','❀']]},
+{title:'A Thousand Tiny Things',color:0x817c9c,pages:[['The First Thing','A ribbon from a gift. A ticket from a train. A tiny proof that a day happened.','🎀'],['The Second Thing','A song that brings back a room you have not visited in years.','♫'],['The Third Thing','A flower tucked into a book, waiting for someone to discover it.','🌷'],['The Thousandth Thing','A life is not only made of milestones. It is made of everything between them.','✧']]}
+];
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x16101d);scene.fog=new THREE.FogExp2(0x201626,.012);const camera=new THREE.PerspectiveCamera(68,innerWidth/innerHeight,.1,150);camera.position.set(0,2.2,16);const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.45;document.querySelector('#scene').append(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xd5b9e8,0x281322,1.25));const sun=new THREE.DirectionalLight(0xffe1a6,3.2);sun.position.set(0,24,-13);scene.add(sun);const warm=(x,y,z,p=20)=>{const l=new THREE.PointLight(0xffbd72,p,16,2);l.position.set(x,y,z);scene.add(l)};[-16,-8,0,8,16].forEach(z=>{warm(-8,5,z,25);warm(8,5,z,25)});
+const mat=(c,rough=.8,metal=0)=>new THREE.MeshStandardMaterial({color:c,roughness:rough,metalness:metal});const wood=mat(0x4d2c29),wood2=mat(0x704337),gold=mat(0xc49b58,.35,.65),floor=mat(0x563e3d),stone=mat(0x3d3140);function box(w,h,d,m,x,y,z,parent=scene){const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);mesh.position.set(x,y,z);parent.add(mesh);return mesh}function cylinder(r1,r2,h,m,x,y,z){const mesh=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,12),m);mesh.position.set(x,y,z);scene.add(mesh);return mesh}
+box(25,.3,70,floor,0,-.25,-8);for(let i=-34;i<28;i+=2){box(24,.015,.045,gold,0,-.08,i)}box(25,17,.6,stone,0,8,-35);box(.7,18,70,stone,-12,8,-8);box(.7,18,70,stone,12,8,-8);box(25,.5,70,stone,0,17,-8);for(let z=-30;z<27;z+=7){for(const x of [-10.8,10.8]){cylinder(.35,.43,16,wood2,x,8,z);box(2,.3,2,gold,x,15.9,z);box(2,.3,2,gold,x,.4,z)}}
+// Gothic window at far end
+const windowGlow=new THREE.MeshBasicMaterial({color:0xb4d5ed});box(7,11,.08,windowGlow,0,9,-34.55);for(let x=-3.5;x<=3.5;x+=1.75)box(.12,11,.15,gold,x,9,-34.4);for(let y=5;y<=14;y+=3)box(7,.1,.15,gold,0,y,-34.4);const halo=new THREE.PointLight(0xc0c6ff,65,35);halo.position.set(0,10,-30);scene.add(halo);
+// Balconies and rails
+for(const y of [7.2,12.4]){for(const x of [-10.3,10.3]){box(3.3,.35,67,wood2,x,y,-8);for(let z=-33;z<27;z+=1.4){box(.08,1.2,.08,gold,x+(x<0?1.3:-1.3),y+.75,z)}box(.15,.13,67,gold,x+(x<0?1.3:-1.3),y+1.35,-8)}}
+const interactive=[];let seed=11;function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}const covers=[0x7e4d6e,0x54617e,0x9b6b60,0x65516f,0x497477,0x9b8264,0x6c4c54,0x77815d];function shelf(x,z,side,level){const group=new THREE.Group();group.position.set(x,level*5.2,z);scene.add(group);box(.5,4.85,6.6,wood2,0,2.45,0,group);for(const sz of [-3.35,3.35])box(.6,5,.22,gold,0,2.45,sz,group);for(let r=0;r<4;r++){const y=.55+r*1.17;box(.85,.13,6.6,wood,side*.1,y-.15,0,group);for(let i=0;i<29;i++){const width=.11+rand()*.1,h=.65+rand()*.33,z=-3.08+i*.217;const color=covers[Math.floor(rand()*covers.length)];const mesh=box(.23,h,width,mat(color,.65),side*.52,y+h/2-.1,z,group);mesh.rotation.x=(rand()-.5)*.08;if(i%4===0)box(.025,.025,width,gold,side*.65,y+h*.5,z,group)}}return group}
+for(let z=-29;z<25;z+=7.1){shelf(-11.4,z,1,0);shelf(11.4,z,-1,0);shelf(-11.4,z,1,1);shelf(11.4,z,-1,1);shelf(-11.4,z,1,2);shelf(11.4,z,-1,2)}
+// Floating storybooks down central aisle, positioned as reachable interactive artifacts
+stories.forEach((s,i)=>{const z=10-Math.floor(i/2)*9;const x=i%2===0?-4.8:4.8;const g=new THREE.Group();g.position.set(x,2.6,z);scene.add(g);const cover=box(1.15,1.55,.22,mat(s.color,.35,.2),0,0,0,g);box(.95,1.37,.06,mat(0xf4d8ae),0,0,.16,g);box(.8,.06,.04,gold,0,.55,.2,g);box(.8,.06,.04,gold,0,-.55,.2,g);const spine=box(.15,1.56,.28,gold,-.56,0,0,g);const glow=new THREE.PointLight(0xffc6ac,5,5);glow.position.set(x,2.6,z);scene.add(glow);interactive.push({g,cover,index:i,base:2.6});});
+// A reading table with candles and rose-gold ornament
+box(4.5,.28,2.4,wood2,0,.95,3);for(const x of [-1.8,1.8])for(const z of [2.2,3.8])box(.2,1,.2,wood,x,.45,z);for(const x of [-1.3,1.3]){cylinder(.11,.11,.45,mat(0xf7d9b5),x,1.33,3);const flame=new THREE.Mesh(new THREE.SphereGeometry(.1,12,12),new THREE.MeshBasicMaterial({color:0xffd88d}));flame.position.set(x,1.64,3);scene.add(flame);warm(x,1.7,3,5)}
+// Atmospheric stars and drifting motes
+const particles=[];for(let i=0;i<210;i++){const p=new THREE.Mesh(new THREE.SphereGeometry(.014+rand()*.026,5,5),new THREE.MeshBasicMaterial({color:i%3?0xffdba6:0xe1b8e9}));p.position.set((rand()-.5)*21,rand()*15,(rand()-.5)*60-8);scene.add(p);particles.push(p)}
+let yaw=0,pitch=0,drag=false,px=0,py=0,walk={};renderer.domElement.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY});window.addEventListener('pointerup',()=>drag=false);window.addEventListener('pointermove',e=>{if(!drag||!document.querySelector('#bookModal').classList.contains('hidden')||!document.querySelector('#entrance').classList.contains('hidden'))return;yaw-=(e.clientX-px)*.003;pitch=Math.max(-.65,Math.min(.65,pitch-(e.clientY-py)*.002));px=e.clientX;py=e.clientY});window.addEventListener('keydown',e=>{walk[e.key.toLowerCase()]=true;if(e.key==='Escape')closeBook()});window.addEventListener('keyup',e=>walk[e.key.toLowerCase()]=false);const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();renderer.domElement.addEventListener('click',e=>{if(!document.querySelector('#entrance').classList.contains('hidden'))return;mouse.set(e.clientX/innerWidth*2-1,-e.clientY/innerHeight*2+1);ray.setFromCamera(mouse,camera);const hits=ray.intersectObjects(interactive.map(a=>a.cover),false);if(hits.length&&hits[0].distance<16){const found=interactive.find(a=>a.cover===hits[0].object);if(found)openBook(found.index)}else{const nearest=interactive.map(a=>({i:a.index,d:camera.position.distanceTo(a.g.position)})).sort((a,b)=>a.d-b.d)[0];if(nearest?.d<3.6)openBook(nearest.i)}});
+function tick(t){requestAnimationFrame(tick);const dt=.045,forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw)),right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));if(document.querySelector('#entrance').classList.contains('hidden')&&document.querySelector('#bookModal').classList.contains('hidden')){if(walk.w||walk.arrowup)camera.position.addScaledVector(forward,dt);if(walk.s||walk.arrowdown)camera.position.addScaledVector(forward,-dt);if(walk.a||walk.arrowleft)camera.position.addScaledVector(right,-dt);if(walk.d||walk.arrowright)camera.position.addScaledVector(right,dt);camera.position.x=Math.max(-8,Math.min(8,camera.position.x));camera.position.z=Math.max(-31,Math.min(22,camera.position.z))}camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;interactive.forEach((a,i)=>{a.g.position.y=a.base+Math.sin(t*.0013+i)*.16;a.g.rotation.y=Math.sin(t*.0007+i)*.22});particles.forEach((p,i)=>{p.position.y+=.0015+(i%3)*.0003;if(p.position.y>16)p.position.y=0});renderer.render(scene,camera)}tick(0);window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+let soundOn=true,audio;function note(freq=440,duration=.4,type='sine',volume=.035){if(!soundOn)return;try{audio??=new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();const o=audio.createOscillator(),gain=audio.createGain();o.type=type;o.frequency.setValueAtTime(freq,audio.currentTime);gain.gain.setValueAtTime(.0001,audio.currentTime);gain.gain.exponentialRampToValueAtTime(volume,audio.currentTime+.03);gain.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);o.connect(gain).connect(audio.destination);o.start();o.stop(audio.currentTime+duration+.02)}catch{}}function paper(){if(!soundOn)return;try{audio??=new(window.AudioContext||window.webkitAudioContext)();const length=Math.floor(audio.sampleRate*.3),buffer=audio.createBuffer(1,length,audio.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*Math.sin(Math.PI*i/length)*.13;const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain();filter.type='bandpass';filter.frequency.value=1100;gain.gain.value=.23;source.buffer=buffer;source.connect(filter).connect(gain).connect(audio.destination);source.start()}catch{}}document.querySelector('#sound').onclick=()=>{soundOn=!soundOn;document.querySelector('#sound').textContent='♫ Sound: '+(soundOn?'On':'Off');if(soundOn)note(660)};
+const entrance=document.querySelector('#entrance'),unlock=document.querySelector('#unlock');let progress=[];const order=['moon','heart','star'];document.querySelectorAll('.symbol').forEach(b=>b.onclick=()=>{const s=b.dataset.s;if(s!==order[progress.length]){progress=[];document.querySelectorAll('.symbol').forEach(v=>v.style.background='');document.querySelector('#error').textContent='The stars scatter. Read the poem and try again.';note(190,.35,'triangle');return}progress.push(s);b.style.background='#a978a4';note([392,494,659][progress.length-1],.7,'sine');document.querySelector('#error').textContent=progress.length+'/3 stars remembered';if(progress.length===3){document.querySelector('#keyIcon').textContent='🗝';document.querySelector('#riddle').textContent='The constellation awakens. The golden key is yours.';document.querySelector('#symbols').classList.add('hidden');unlock.classList.remove('hidden');note(880,1)}});unlock.onclick=()=>{localStorage.setItem('aethera_3d_key_v1','yes');entrance.classList.add('hidden');note(784,1);setTimeout(()=>note(988,1),200)};if(localStorage.getItem('aethera_3d_key_v1')==='yes')entrance.classList.add('hidden');
+let current=0,spread=0,busy=false;function render(){const s=stories[current],total=Math.ceil(s.pages.length/2),left=s.pages[spread*2],right=s.pages[spread*2+1];function page(p,n){return p?`<div class="ornament">${p[2]}</div><h3>${p[0]}</h3><p>${p[1]}</p><small>${n}</small>`:''}document.querySelector('#left').innerHTML=page(left,spread*2+1);document.querySelector('#right').innerHTML=page(right,spread*2+2);document.querySelector('#count').textContent=`Spread ${spread+1} of ${total}`;document.querySelector('#prev').disabled=spread===0;document.querySelector('#next').disabled=spread>=total-1}function openBook(i){current=i;spread=0;document.querySelector('#bookTitle').textContent=stories[i].title;document.querySelector('#bookModal').classList.remove('hidden');render();note(523,.5)}function closeBook(){document.querySelector('#bookModal').classList.add('hidden')}document.querySelector('#close').onclick=closeBook;function turn(dir){if(busy)return;const total=Math.ceil(stories[current].pages.length/2);if(spread+dir<0||spread+dir>=total)return;busy=true;const el=document.querySelector('#spread');el.classList.add(dir>0?'turn-next':'turn-prev');paper();setTimeout(()=>{spread+=dir;render()},400);setTimeout(()=>{el.classList.remove('turn-next','turn-prev');busy=false},810)}document.querySelector('#next').onclick=()=>turn(1);document.querySelector('#prev').onclick=()=>turn(-1);
+</script>
+<style id="AETHERA_PUZZLE_FIX_V2">
+#entrance { z-index: 99999 !important; pointer-events: auto !important; }
+#entrance .entry { position: relative; z-index: 100000; pointer-events: auto !important; }
+#entrance .symbol, #entrance #unlock {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    touch-action: manipulation;
+}
+#entrance .symbol.aethera-selected {
+    background: #b98bbd !important;
+    border-color: #ffe1a2 !important;
+    box-shadow: 0 0 28px #f5b6e9, inset 0 0 12px #ffffff66;
+    transform: translateY(-5px) scale(1.08);
+}
+</style>
+<script>
+/* AETHERA_PUZZLE_FIX_V2 */
+(function () {
+  function setup() {
+    const entrance = document.getElementById("entrance");
+    const buttons = [...document.querySelectorAll("#entrance .symbol")];
+    const unlockButton = document.getElementById("unlock");
+    const error = document.getElementById("error");
+    const symbols = document.getElementById("symbols");
+    const keyIcon = document.getElementById("keyIcon");
+    const riddle = document.getElementById("riddle");
+
+    if (!entrance || buttons.length !== 3 || !unlockButton) {
+      console.error("AETHERA: puzzle elements missing");
+      return;
+    }
+
+    let progress = 0;
+    const order = ["moon", "heart", "star"];
+
+    function reset() {
+      progress = 0;
+      buttons.forEach(b => b.classList.remove("aethera-selected"));
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const chosen = button.dataset.s;
+
+        if (chosen !== order[progress]) {
+          reset();
+          if (error) error.textContent =
+            "The constellation faded. Follow the moon, then the heart, then the star.";
+          return;
+        }
+
+        button.classList.add("aethera-selected");
+        progress++;
+
+        if (error) error.textContent =
+          progress === 3 ? "The constellation is complete!" :
+          progress + " of 3 stars awakened";
+
+        if (progress === 3) {
+          if (keyIcon) keyIcon.textContent = "🗝️";
+          if (riddle) riddle.textContent =
+            "You have awakened the constellation. The golden key is yours.";
+          if (symbols) symbols.classList.add("hidden");
+          unlockButton.classList.remove("hidden");
+        }
+      }, true);
+    });
+
+    unlockButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      if (progress !== 3) return;
+
+      localStorage.setItem("aethera_3d_key_v1", "yes");
+      entrance.classList.add("hidden");
+    }, true);
+
+    console.log("AETHERA puzzle controller ready");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setup);
+  } else {
+    setup();
+  }
+})();
+</script>
+<link rel="stylesheet" href="./infinite.css">
+<script defer src="./infinite.js?v=20261118-050557"></script>
+</body></html>
