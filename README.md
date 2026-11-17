@@ -1,8 +1,6 @@
-﻿<div align="center">
+<div align="center">
 
-<img src=".github/assets/aethera-universe.png" width="100%" alt="AETHERA — the real immersive 3D universe"/>
-
-<br/>
+<img src=".github/assets/aethera-universe.png" width="100%" alt="AETHERA — immersive 3D personal universe" />
 
 # A E T H E R A
 
@@ -10,23 +8,12 @@
 
 **YOUR MIND IS NOT A COLLECTION OF FOLDERS. IT IS AN ENTIRE UNIVERSE.**
 
-<br/>
+[![Enter AETHERA](https://img.shields.io/badge/ENTER_THE_UNIVERSE-LIVE_EXPERIENCE-C8AFFF?style=for-the-badge&labelColor=171129)](https://aethera-nine.vercel.app/)
+[![Explore the code](https://img.shields.io/badge/EXPLORE_THE_CODE-GITHUB-7EE0D3?style=for-the-badge&logo=github&labelColor=171129)](https://github.com/oishipaul45-engineer/AETHERA)
 
-<a href="https://aethera-nine.vercel.app/">
-<img src="https://img.shields.io/badge/ENTER_THE_UNIVERSE-LIVE_EXPERIENCE-C8AFFF?style=for-the-badge&labelColor=171129" alt="Enter AETHERA"/>
-</a>
-
-<a href="https://github.com/oishipaul45-engineer/AETHERA">
-<img src="https://img.shields.io/badge/EXPLORE_THE_CODE-GITHUB-7EE0D3?style=for-the-badge&logo=github&labelColor=171129" alt="Explore the source"/>
-</a>
-
-<br/><br/>
-
-<img src="https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=600&size=23&duration=3200&pause=1100&color=C8AFFF&center=true&vCenter=true&width=780&lines=Every+thought+is+a+world.;Every+idea+is+a+new+possibility.;Every+connection+is+a+constellation.;Welcome+to+your+universe." alt="AETHERA animated introduction"/>
+<img src="https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=600&size=23&duration=3200&pause=1100&color=C8AFFF&center=true&vCenter=true&width=780&lines=Every+thought+is+a+world.;Every+idea+is+a+new+possibility.;Every+connection+is+a+constellation.;Welcome+to+your+universe." alt="AETHERA animated introduction" />
 
 </div>
-
-<br/>
 
 ---
 
@@ -36,21 +23,17 @@
 
 # WHAT IF YOU COULD WALK THROUGH YOUR OWN IMAGINATION?
 
-Your ideas shouldn't disappear into forgotten notes.
-
-Your thoughts shouldn't be trapped inside ordinary interfaces.
-
+Your ideas shouldn't disappear into forgotten notes.  
+Your thoughts shouldn't be trapped inside ordinary interfaces.  
 Your goals shouldn't feel like another checklist.
 
 **AETHERA transforms the way you experience your own mind.**
 
-An immersive 3D personal universe where your ideas, thoughts, notes, projects, and goals become planets you can explore.
+An immersive personal universe where ideas, thoughts, notes, projects, and goals become worlds you can explore — now with a magical 3D library for the things you want to keep.
 
 **Not just productivity. A different way of thinking.**
 
 </div>
-
-<br/>
 
 ---
 
@@ -64,60 +47,19 @@ An immersive 3D personal universe where your ideas, thoughts, notes, projects, a
 
 </div>
 
-<table>
-<tr>
-<td width="50%">
-<img src=".github/assets/ideas.svg" width="100%" alt="Ideas planet"/>
-</td>
-<td width="50%">
-<img src=".github/assets/thoughts.svg" width="100%" alt="Thoughts planet"/>
-</td>
-</tr>
-<tr>
-<td>
+| ✦ IDEAS | ✧ THOUGHTS |
+|:---:|:---:|
+| <img src=".github/assets/ideas.svg" width="100%" alt="Ideas planet" /> | <img src=".github/assets/thoughts.svg" width="100%" alt="Thoughts planet" /> |
+| Grow possibilities through interactive stages of development. | Combine thoughts and discover relationships between them. |
 
-### ✦ IDEAS
-
-Grow possibilities through interactive stages of development.
-
-</td>
-<td>
-
-### ✧ THOUGHTS
-
-Combine thoughts and discover relationships between them.
-
-</td>
-</tr>
-<tr>
-<td>
-<img src=".github/assets/notes.svg" width="100%" alt="Notes planet"/>
-</td>
-<td>
-<img src=".github/assets/projects.svg" width="100%" alt="Projects planet"/>
-</td>
-</tr>
-<tr>
-<td>
-
-### ◈ NOTES
-
-Create a personal archive for your knowledge.
-
-</td>
-<td>
-
-### ◇ PROJECTS
-
-Build and assemble interactive creations.
-
-</td>
-</tr>
-</table>
+| ◈ NOTES | ◇ PROJECTS |
+|:---:|:---:|
+| <img src=".github/assets/notes.svg" width="100%" alt="Notes planet" /> | <img src=".github/assets/projects.svg" width="100%" alt="Projects planet" /> |
+| Create a personal archive for your knowledge. | Build and assemble interactive creations. |
 
 <div align="center">
 
-<img src=".github/assets/goals.svg" width="62%" alt="Goals planet"/>
+<img src=".github/assets/goals.svg" width="62%" alt="Goals planet" />
 
 ### ✷ GOALS
 
@@ -125,32 +67,75 @@ Turn your ambitions into milestones and track their progress.
 
 </div>
 
-<br/>
+---
+
+<div align="center">
+
+### 03 / THE LIBRARY OF UNSPOKEN THINGS
+
+# SOME STORIES DESERVE THEIR OWN UNIVERSE.
+
+<img src=".github/assets/grand-library.png" width="100%" alt="Actual screenshot of AETHERA's immersive 3D Grand Library, with towering bookshelves and warm lighting" />
+
+*Actual screenshot from the working AETHERA 3D Library.*
+
+</div>
+
+Enter a warm, atmospheric library filled with towering bookshelves, floating lights, and books waiting to be explored. Move around the space using **W A S D**, drag to look around, and click a glowing book to read.
+
+**The Grand Library is a separate browser-based experience** within the AETHERA project. Its source lives in [`AETHERA-3D-LIBRARY/`](./AETHERA-3D-LIBRARY/).
 
 ---
 
 <div align="center">
 
-### 03 / IMMERSIVE EXPLORATION
+### 04 / INFINITE BOOKS
+
+# EVERY PAGE HOLDS A UNIVERSE.
+
+<img src=".github/assets/infinite-books.png" width="100%" alt="Actual screenshot of AETHERA Infinite Books showing an open personal book, a memory photograph, and editing controls" />
+
+*Actual screenshot of Infinite Books with a saved memory page.*
+
+</div>
+
+Create personal books, add pages, turn through memories, and return to them whenever you like. The working editor supports **12 page types**:
+
+| | | |
+|---|---|---|
+| 📷 Memory | 💌 Letter | 🎙️ Voice |
+| ⏳ Time Capsule | 🌙 Dream | 🗺️ Map |
+| 🎨 Drawing | 📜 Timeline | 🔒 Secret |
+| ✨ Interactive | 🎵 Music | 🎁 Keepsake |
+
+**Included interactions:** book creation and renaming, adding/editing/deleting pages, animated page transitions, image and file attachments, drawing, recording controls, page sound, and import/export backups. Available fields vary by page type; some media features depend on browser permissions and supported formats.
+
+**Privacy note:** Infinite Books data is stored locally in the browser. It does **not** automatically sync to GitHub or between devices. Export backups regularly; clearing browser data may remove your books. Secret-page passphrases are a local access gate, **not encryption**.
+
+---
+
+<div align="center">
+
+### 05 / IMMERSIVE EXPLORATION
 
 # DON'T JUST VIEW YOUR WORLD. ENTER IT.
 
 </div>
 
-AETHERA includes an explorable 3D city experience.
-
-Walk through its environment, change camera perspectives, and interact with activities tied to your personal universe.
+AETHERA's planetary experience includes an explorable 3D city, perspective switching, and activities tied to your personal universe.
 
 | EXPERIENCE | WHAT IT MEANS |
 |---|---|
 | 🪐 **Living universe** | Navigate an interactive planetary system |
-| ✦ **Connected worlds** | Build connections between your planets |
+| ✦ **Connected worlds** | Build connections between planets |
 | 🏙️ **City exploration** | Explore a walkable 3D environment |
 | 🎮 **Camera perspectives** | Switch between first-person and third-person views |
 | 🧩 **Interactive activities** | Engage with category-specific experiences |
-| 💾 **Local persistence** | Keep your information in browser storage |
+| 📚 **Grand Library** | Wander through a separate atmospheric 3D library |
+| 📖 **Infinite Books** | Create and revisit personal multimedia books |
+| 💾 **Local persistence** | Store data in your browser; export Infinite Books backups |
 
-### EXPLORATION CONTROLS
+**Planetary city controls**
 
 | KEY | ACTION |
 |:---:|---|
@@ -160,17 +145,15 @@ Walk through its environment, change camera perspectives, and interact with acti
 | `V` | Switch camera perspective |
 | `E` | Interact / enter or exit |
 
-<br/>
+**Grand Library controls:** `W` `A` `S` `D` to wander, drag to look around, click a glowing book to read, and select **My Infinite Books** to open your archive.
 
 ---
 
 <div align="center">
 
-### 04 / THE ENGINE
+### 06 / THE ENGINE
 
 # BUILT FOR A DIFFERENT KIND OF WEB
-
-<br/>
 
 ![React](https://img.shields.io/badge/React-17132C?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-17132C?style=for-the-badge&logo=typescript&logoColor=3178C6)
@@ -180,27 +163,23 @@ Walk through its environment, change camera perspectives, and interact with acti
 
 </div>
 
-**Frontend:** React + TypeScript + Vite
-
-**3D:** Three.js + React Three Fiber + Drei
-
-**Styling:** CSS
-
-**Persistence:** Browser localStorage
-
-**Hosting:** Vercel
-
-<br/>
+**Planetary frontend:** React + TypeScript + Vite  
+**Planetary 3D:** Three.js + React Three Fiber + Drei  
+**Grand Library:** standalone HTML + JavaScript + Three.js + CSS  
+**Persistence:** browser localStorage for the planetary experience; browser-local IndexedDB for Infinite Books  
+**Hosting:** Vercel for the planetary frontend; the standalone library can be served locally
 
 ---
 
 <div align="center">
 
-### 05 / LAUNCH SEQUENCE
+### 07 / LAUNCH SEQUENCE
 
 # START EXPLORING
 
 </div>
+
+**Planetary universe**
 
 ```bash
 git clone https://github.com/oishipaul45-engineer/AETHERA.git
@@ -209,19 +188,24 @@ npm install
 npm run dev
 ```
 
-For a production build:
+**Grand Library + Infinite Books** (from the repository root)
 
 ```bash
-npm run build
+cd AETHERA-3D-LIBRARY
+python -m http.server 8811 --bind 127.0.0.1
 ```
 
-<br/>
+Then open `http://127.0.0.1:8811/index.html`.
+
+**Planetary production build:** run `npm run build` inside `frontend/`.
+
+> The live Vercel link above refers to the planetary frontend. Adding the library folder to GitHub does not automatically deploy it to that URL.
 
 ---
 
 <div align="center">
 
-### 06 / THE NEXT FRONTIER
+### 08 / THE NEXT FRONTIER
 
 # A UNIVERSE THAT KEEPS EXPANDING
 
@@ -232,16 +216,16 @@ npm run build
 - [x] Walkable 3D city environment
 - [x] First-person and third-person exploration
 - [x] Five category-specific activities
-- [x] Browser-local persistence
+- [x] Atmospheric, explorable Grand Library
+- [x] Infinite Books editor with 12 page types
+- [x] Browser-local book storage and backup import/export
 - [ ] Five fully distinct city environments
 - [ ] Deeper physical 3D interactions
 - [ ] Living characters and transportation
 - [ ] Accounts and cloud synchronization
 - [ ] AI-assisted idea connections
 
-> **Current status:** AETHERA is an evolving prototype. The five categories currently share a foundational city environment. Activities are implemented through interactive interfaces, and user data is stored locally in the browser.
-
-<br/>
+> **Current status:** AETHERA is an evolving prototype. The five planetary categories currently share a foundational city environment. The Grand Library and Infinite Books are separate working experiences. User-created content is browser-local rather than cloud-synced.
 
 ---
 
@@ -251,13 +235,7 @@ npm run build
 
 **Every thought is a world. Every connection is a constellation.**
 
-<br/>
-
-<a href="https://aethera-nine.vercel.app/">
-<img src="https://img.shields.io/badge/EXPLORE_AETHERA-ENTER_THE_UNIVERSE-C8AFFF?style=for-the-badge&labelColor=171129" alt="Explore AETHERA"/>
-</a>
-
-<br/><br/>
+[![Explore AETHERA](https://img.shields.io/badge/EXPLORE_AETHERA-ENTER_THE_UNIVERSE-C8AFFF?style=for-the-badge&labelColor=171129)](https://aethera-nine.vercel.app/)
 
 Made with imagination by **[Oishi Paul](https://github.com/oishipaul45-engineer)**
 
