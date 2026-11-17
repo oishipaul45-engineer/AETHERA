@@ -1,0 +1,45 @@
+
+import Universe from "./components/universe/Universe";
+import "./App.css";
+
+function App() {
+  return (
+    <main className="aethera">
+      <div className="universe">
+        <Universe />
+      </div>
+
+      <header className="topbar">
+        <div className="brand">
+          <span className="brand-symbol">✦</span>
+          AETHERA
+        </div>
+
+        <span className="topbar-status">
+          <span className="status-dot" />
+          YOUR UNIVERSE IS ALIVE
+        </span>
+      </header>
+
+      <section className="hero">
+        <div className="eyebrow">WELCOME TO YOUR INFINITE SPACE</div>
+        <h1>
+          Your mind.
+          <br />
+          <span>Your universe.</span>
+        </h1>
+        <p>
+          Every thought is a world waiting to be discovered.
+          A space where ideas become celestial.
+        </p>
+      </section>
+
+      <div className="bottom-info">
+        <span>✧ A UNIVERSE OF POSSIBILITIES</span>
+        <span>DRAG TO EXPLORE · SCROLL TO ZOOM</span>
+      </div>
+    </main>
+  );
+}
+
+export default App;

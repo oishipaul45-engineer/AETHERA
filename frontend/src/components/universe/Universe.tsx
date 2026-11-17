@@ -1,0 +1,1322 @@
+﻿import LivingCity from "./LivingCity";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Float, OrbitControls, Stars, Text } from "@react-three/drei";
+import { useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+
+import {
+  PLANET_COLORS,
+  type PlanetData,
+  type PlanetConnection,
+} from "../../types/universe";
+
+interface UniverseProps {
+  planets: PlanetData[];
+  connections: PlanetConnection[];
+  selectedId: string | null;
+  connectingFrom: string | null;
+  onSelect: (id: string | null) => void;
+  resetSignal: number;
+}
+
+function PlanetSurface({
+  radius,
+  color,
+  selected,
+  connecting,
+}: {
+  radius: number;
+  color: string;
+  selected: boolean;
+  connecting: boolean;
+}) {
+  const surface = useRef<THREE.Mesh>(null);
+  const energy = useRef<THREE.Mesh>(null);
+  const halo = useRef<THREE.Mesh>(null);
+
+  const shader = useMemo(
+    () => ({
+      uniforms: {
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color(color) },
+        uIntensity: { value: 1 },
+      },
+      vertexShader: `
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        varying vec3 vWorldPosition;
+        uniform float uTime;
+
+        void main() {
+          vNormal = normalize(mat3(modelMatrix) * normal);
+          vPosition = position;
+
+          vec3 transformed = position;
+          float wave =
+            sin(position.y * 8.0 + uTime * 0.65) *
+            sin(position.x * 7.0 - uTime * 0.4);
+
+          transformed += normal * wave * 0.018;
+
+          vec4 worldPosition =
+            modelMatrix * vec4(transformed, 1.0);
+
+          vWorldPosition = worldPosition.xyz;
+
+          gl_Position =
+            projectionMatrix *
+            viewMatrix *
+            worldPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        uniform vec3 uColor;
+        uniform float uIntensity;
+
+        varying vec3 vNormal;
+        varying vec3 vPosition;
+        varying vec3 vWorldPosition;
+
+        void main() {
+          vec3 normal = normalize(vNormal);
+          vec3 viewDirection =
+            normalize(cameraPosition - vWorldPosition);
+
+          float fresnel = pow(
+            1.0 - abs(dot(normal, viewDirection)),
+            2.5
+          );
+
+          float latitude = sin(
+            vPosition.y * 13.0 +
+            sin(vPosition.x * 7.0 + uTime * 0.3) * 1.5 +
+            uTime * 0.35
+          );
+
+          float longitude = sin(
+            vPosition.x * 11.0 -
+            vPosition.z * 8.0 -
+            uTime * 0.25
+          );
+
+          float energyPattern = smoothstep(
+            0.45,
+            0.95,
+            latitude * longitude
+          );
+
+          float shimmer =
+            0.5 +
+            0.5 * sin(
+              vPosition.y * 22.0 +
+              vPosition.x * 12.0 +
+              uTime * 0.6
+            );
+
+          vec3 darkColor = uColor * 0.12;
+          vec3 brightColor =
+            mix(uColor, vec3(1.0), 0.45);
+
+          vec3 finalColor = mix(
+            darkColor,
+            uColor * 0.85,
+            shimmer * 0.6
+          );
+
+          finalColor +=
+            brightColor * energyPattern * 1.15;
+
+          finalColor +=
+            brightColor * fresnel * 1.4;
+
+          finalColor *= uIntensity;
+
+          gl_FragColor = vec4(finalColor, 1.0);
+        }
+      `,
+    }),
+    [color]
+  );
+
+  useFrame((state, delta) => {
+    shader.uniforms.uTime.value =
+      state.clock.elapsedTime;
+
+    shader.uniforms.uIntensity.value =
+      selected || connecting ? 1.5 : 1;
+
+    if (surface.current) {
+      surface.current.rotation.y += delta * 0.08;
+    }
+
+    if (energy.current) {
+      energy.current.rotation.y -= delta * 0.14;
+      energy.current.rotation.z += delta * 0.035;
+    }
+
+    if (halo.current) {
+      const pulse =
+        1.22 +
+        Math.sin(state.clock.elapsedTime * 1.3) * 0.025;
+
+      halo.current.scale.setScalar(pulse);
+    }
+  });
+
+  return (
+    <group>
+      <mesh ref={surface}>
+        <sphereGeometry args={[radius, 96, 96]} />
+        <shaderMaterial
+          uniforms={shader.uniforms}
+          vertexShader={shader.vertexShader}
+          fragmentShader={shader.fragmentShader}
+        />
+      </mesh>
+
+      <mesh ref={energy} scale={1.045}>
+        <sphereGeometry args={[radius, 64, 64]} />
+        <meshBasicMaterial
+          color={color}
+          wireframe
+          transparent
+          opacity={0.075}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      <mesh ref={halo}>
+        <sphereGeometry args={[radius, 64, 64]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={selected || connecting ? 0.17 : 0.085}
+          side={THREE.BackSide}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      <mesh scale={1.42}>
+        <sphereGeometry args={[radius, 48, 48]} />
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={0.025}
+          side={THREE.BackSide}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+function PlanetParticles({
+  radius,
+  color,
+  count,
+}: {
+  radius: number;
+  color: string;
+  count: number;
+}) {
+  const points = useRef<THREE.Points>(null);
+
+  const positions = useMemo(() => {
+    const result = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance =
+        radius * (1.5 + Math.random() * 1.1);
+      const height =
+        (Math.random() - 0.5) * radius * 1.3;
+
+      result[i * 3] = Math.cos(angle) * distance;
+      result[i * 3 + 1] = height;
+      result[i * 3 + 2] = Math.sin(angle) * distance;
+    }
+
+    return result;
+  }, [count, radius]);
+
+  useFrame((_, delta) => {
+    if (points.current) {
+      points.current.rotation.y += delta * 0.035;
+    }
+  });
+
+  return (
+    <points ref={points}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[positions, 3]}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        color={color}
+        size={radius > 1 ? 0.035 : 0.018}
+        sizeAttenuation
+        transparent
+        opacity={0.75}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
+function LivingPlanet({
+  data,
+  selected,
+  connecting,
+  onSelect,
+}: {
+  data: PlanetData;
+  selected: boolean;
+  connecting: boolean;
+  onSelect: () => void;
+}) {
+  const ring = useRef<THREE.Group>(null);
+  const core = useRef<THREE.Group>(null);
+
+  const color = PLANET_COLORS[data.category];
+  const isCentral = data.id === "origin";
+  const radius = isCentral ? 1.35 : 0.52;
+
+  useFrame((state, delta) => {
+    if (ring.current) {
+      ring.current.rotation.z += delta * 0.055;
+      ring.current.rotation.y += delta * 0.025;
+    }
+
+    if (core.current) {
+      const pulse =
+        1 + Math.sin(state.clock.elapsedTime * 1.2) * 0.016;
+
+      core.current.scale.setScalar(pulse);
+    }
+  });
+
+  return (
+    <group position={data.position}>
+      <Float
+        speed={1.2}
+        rotationIntensity={0.08}
+        floatIntensity={0.16}
+      >
+        <group ref={core}>
+          <group
+            onClick={(event) => {
+              event.stopPropagation();
+              onSelect();
+            }}
+            onPointerOver={() => {
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={() => {
+              document.body.style.cursor = "auto";
+            }}
+          >
+            <PlanetSurface
+              radius={radius}
+              color={color}
+              selected={selected}
+              connecting={connecting}
+            />
+
+            <mesh visible={false}>
+              <sphereGeometry args={[radius * 1.5, 32, 32]} />
+              <meshBasicMaterial />
+            </mesh>
+          </group>
+
+          <PlanetParticles
+            radius={radius}
+            color={color}
+            count={isCentral ? 180 : 65}
+          />
+
+          <group ref={ring}>
+            <mesh rotation={[Math.PI / 2.6, 0.2, 0]}>
+              <torusGeometry
+                args={[radius * 1.65, 0.012, 8, 160]}
+              />
+              <meshBasicMaterial
+                color={color}
+                transparent
+                opacity={0.8}
+                blending={THREE.AdditiveBlending}
+              />
+            </mesh>
+
+            <mesh rotation={[Math.PI / 2.1, 0.8, 0]}>
+              <torusGeometry
+                args={[radius * 1.95, 0.006, 8, 160]}
+              />
+              <meshBasicMaterial
+                color="#b9edff"
+                transparent
+                opacity={0.45}
+                blending={THREE.AdditiveBlending}
+              />
+            </mesh>
+
+            {isCentral && (
+              <mesh rotation={[Math.PI / 1.7, 0.35, 0]}>
+                <torusGeometry
+                  args={[radius * 2.25, 0.004, 8, 160]}
+                />
+                <meshBasicMaterial
+                  color="#ffd6f2"
+                  transparent
+                  opacity={0.3}
+                  blending={THREE.AdditiveBlending}
+                />
+              </mesh>
+            )}
+          </group>
+
+          {(selected || connecting) && (
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+              <torusGeometry
+                args={[radius * 2.45, 0.015, 8, 128]}
+              />
+              <meshBasicMaterial
+                color={connecting ? "#72e5ce" : "#ffffff"}
+              />
+            </mesh>
+          )}
+        </group>
+      </Float>
+    </group>
+  );
+}
+
+function ConnectionLine({
+  source,
+  target,
+  highlighted,
+}: {
+  source: PlanetData;
+  target: PlanetData;
+  highlighted: boolean;
+}) {
+  const material = useRef<THREE.MeshBasicMaterial>(null);
+
+  const geometry = useMemo(() => {
+    const start = new THREE.Vector3(...source.position);
+    const end = new THREE.Vector3(...target.position);
+
+    const middle = start.clone().add(end).multiplyScalar(0.5);
+    middle.z -= 0.6;
+
+    const curve = new THREE.QuadraticBezierCurve3(
+      start,
+      middle,
+      end
+    );
+
+    return new THREE.TubeGeometry(curve, 64, 0.012, 6, false);
+  }, [source.position, target.position]);
+
+  useEffect(() => {
+    return () => geometry.dispose();
+  }, [geometry]);
+
+  useFrame((state) => {
+    if (material.current) {
+      const pulse =
+        0.48 + Math.sin(state.clock.elapsedTime * 1.8) * 0.16;
+
+      material.current.opacity = highlighted
+        ? Math.min(1, pulse + 0.3)
+        : pulse;
+    }
+  });
+
+  return (
+    <mesh geometry={geometry} raycast={() => []}>
+      <meshBasicMaterial
+        ref={material}
+        color={highlighted ? "#a6fff0" : "#b69aff"}
+        transparent
+        opacity={0.6}
+        depthWrite={false}
+      />
+    </mesh>
+  );
+}
+
+function CameraRig({
+  planets,
+  selectedId,
+  resetSignal,
+}: {
+  planets: PlanetData[];
+  selectedId: string | null;
+  resetSignal: number;
+}) {
+  const { camera } = useThree();
+  const controls = useRef<OrbitControlsImpl>(null);
+  const target = useRef(new THREE.Vector3());
+  const destination = useRef(new THREE.Vector3(0, 0, 12));
+  const moving = useRef(true);
+
+  const selectedPlanet = planets.find(
+    (planet) => planet.id === selectedId
+  );
+
+  const selectedPosition = selectedPlanet?.position;
+
+  useEffect(() => {
+    if (selectedPosition) {
+      target.current.set(...selectedPosition);
+      destination.current
+        .copy(target.current)
+        .add(new THREE.Vector3(0, 0.8, 4.5));
+    } else {
+      target.current.set(0, 0, 0);
+      destination.current.set(0, 0, 12);
+    }
+
+    moving.current = true;
+  }, [selectedId, selectedPosition, resetSignal]);
+
+  useFrame((_, delta) => {
+    if (!controls.current || !moving.current) return;
+
+    const factor = 1 - Math.exp(-delta * 2.5);
+
+    camera.position.lerp(destination.current, factor);
+    controls.current.target.lerp(target.current, factor);
+    controls.current.update();
+
+    if (
+      camera.position.distanceTo(destination.current) < 0.025 &&
+      controls.current.target.distanceTo(target.current) < 0.025
+    ) {
+      moving.current = false;
+    }
+  });
+
+  return (
+    <OrbitControls
+      ref={controls}
+      makeDefault
+      enablePan
+      enableDamping
+      dampingFactor={0.045}
+      minDistance={1.8}
+      maxDistance={35}
+      autoRotate={!selectedId}
+      autoRotateSpeed={0.18}
+      onStart={() => {
+        moving.current = false;
+      }}
+    />
+  );
+}
+
+function CelestialAnomaly() {
+  const outer = useRef<THREE.Group>(null);
+  const disk = useRef<THREE.Group>(null);
+  const particles = useRef<THREE.Points>(null);
+
+  const particlePositions = useMemo(() => {
+    const count = 1400;
+    const array = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      const angle = (i / count) * Math.PI * 2 * 23.0;
+      const radius = 1.25 + (i % 97) / 97 * 2.9;
+      const height =
+        Math.sin(angle * 2.0) * 0.12 +
+        Math.sin(i * 1.7) * 0.16;
+
+      array[i * 3] = Math.cos(angle) * radius;
+      array[i * 3 + 1] = height;
+      array[i * 3 + 2] = Math.sin(angle) * radius;
+    }
+
+    return array;
+  }, []);
+
+  useFrame((state, delta) => {
+    const t = state.clock.elapsedTime;
+
+    if (outer.current) {
+      outer.current.rotation.y += delta * 0.025;
+      outer.current.rotation.z = Math.sin(t * 0.13) * 0.08;
+
+      outer.current.position.x =
+        6.8 + state.pointer.x * 0.18;
+
+      outer.current.position.y =
+        0.4 + state.pointer.y * 0.14;
+    }
+
+    if (disk.current) {
+      disk.current.rotation.y += delta * 0.07;
+      disk.current.rotation.z += delta * 0.045;
+    }
+
+    if (particles.current) {
+      particles.current.rotation.y -= delta * 0.12;
+    }
+  });
+
+  return (
+    <group ref={outer} position={[6.8, 0.4, -7.5]}>
+      <group rotation={[0.85, 0.1, 0.35]}>
+        <group ref={disk}>
+          <mesh>
+            <torusGeometry args={[1.35, 0.16, 12, 160]} />
+            <meshBasicMaterial
+              color="#a76dff"
+              transparent
+              opacity={0.7}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+
+          <mesh>
+            <torusGeometry args={[1.75, 0.035, 8, 200]} />
+            <meshBasicMaterial
+              color="#86f7e8"
+              transparent
+              opacity={0.8}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+
+          <mesh>
+            <torusGeometry args={[2.3, 0.025, 8, 220]} />
+            <meshBasicMaterial
+              color="#ffc2e5"
+              transparent
+              opacity={0.55}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+
+          <mesh>
+            <torusGeometry args={[3.1, 0.012, 8, 240]} />
+            <meshBasicMaterial
+              color="#aa9cff"
+              transparent
+              opacity={0.32}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+        </group>
+
+        <points ref={particles}>
+          <bufferGeometry>
+            <bufferAttribute
+              attach="attributes-position"
+              args={[particlePositions, 3]}
+            />
+          </bufferGeometry>
+          <pointsMaterial
+            color="#c4a9ff"
+            size={0.024}
+            sizeAttenuation
+            transparent
+            opacity={0.7}
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
+        </points>
+      </group>
+
+      <mesh>
+        <sphereGeometry args={[0.95, 48, 48]} />
+        <meshBasicMaterial color="#010008" />
+      </mesh>
+
+      <mesh scale={1.13}>
+        <sphereGeometry args={[0.95, 48, 48]} />
+        <meshBasicMaterial
+          color="#9569ff"
+          transparent
+          opacity={0.13}
+          side={THREE.BackSide}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      <mesh rotation={[0.4, 0.8, 0.2]}>
+        <torusGeometry args={[1.1, 0.025, 8, 160]} />
+        <meshBasicMaterial
+          color="#d8baff"
+          transparent
+          opacity={0.65}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      <mesh rotation={[1.1, 0.4, 0.7]}>
+        <torusGeometry args={[1.22, 0.012, 8, 160]} />
+        <meshBasicMaterial
+          color="#78f4e5"
+          transparent
+          opacity={0.55}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      <pointLight
+        color="#aa75ff"
+        intensity={12}
+        distance={10}
+      />
+    </group>
+  );
+}
+function HiddenPlanetWorld({
+  planet,
+  selected,
+}: {
+  planet: PlanetData;
+  selected: boolean;
+}) {
+  const world = useRef<THREE.Group>(null);
+  const crystals = useRef<THREE.Group>(null);
+  const portal = useRef<THREE.Group>(null);
+
+  const color = PLANET_COLORS[planet.category] ?? "#a98aff";
+
+  useFrame((state, delta) => {
+    if (!world.current) return;
+
+    const distance = state.camera.position.distanceTo(
+      new THREE.Vector3(...planet.position)
+    );
+
+    const reveal = selected
+      ? THREE.MathUtils.smoothstep(distance, 10, 5)
+      : 0;
+
+    const deepReveal = selected
+      ? THREE.MathUtils.smoothstep(distance, 7, 3.5)
+      : 0;
+
+    const desiredScale = Math.max(0.0001, reveal);
+
+    world.current.scale.lerp(
+      new THREE.Vector3(
+        desiredScale,
+        desiredScale,
+        desiredScale
+      ),
+      Math.min(1, delta * 3.5)
+    );
+
+    world.current.visible = world.current.scale.x > 0.008;
+
+    world.current.rotation.y += delta * 0.075;
+
+    if (crystals.current) {
+      crystals.current.scale.setScalar(
+        Math.max(0.0001, deepReveal)
+      );
+      crystals.current.rotation.y -= delta * 0.13;
+      crystals.current.rotation.z =
+        Math.sin(state.clock.elapsedTime * 0.35) * 0.08;
+    }
+
+    if (portal.current) {
+      portal.current.scale.setScalar(
+        Math.max(0.0001, deepReveal)
+      );
+      portal.current.rotation.y += delta * 0.16;
+    }
+  });
+
+  return (
+    <group position={planet.position}>
+      <group ref={world} scale={0.0001} visible={false}>
+        <mesh rotation={[1.1, 0.2, 0.3]}>
+          <torusGeometry args={[1.55, 0.018, 8, 160]} />
+          <meshBasicMaterial
+            color={color}
+            transparent
+            opacity={0.65}
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
+
+        <mesh rotation={[0.3, 1.2, 0.8]}>
+          <torusGeometry args={[1.85, 0.012, 8, 160]} />
+          <meshBasicMaterial
+            color="#a6f5ef"
+            transparent
+            opacity={0.5}
+            depthWrite={false}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
+
+        <group ref={crystals}>
+          {Array.from({ length: 12 }, (_, i) => {
+            const angle = (i / 12) * Math.PI * 2;
+            const radius = 1.75 + (i % 3) * 0.25;
+
+            return (
+              <group
+                key={i}
+                position={[
+                  Math.cos(angle) * radius,
+                  Math.sin(i * 2.1) * 0.65,
+                  Math.sin(angle) * radius,
+                ]}
+                rotation={[
+                  angle * 0.3,
+                  angle,
+                  angle * 0.6,
+                ]}
+              >
+                <mesh>
+                  <octahedronGeometry
+                    args={[0.13 + (i % 4) * 0.035, 0]}
+                  />
+                  <meshStandardMaterial
+                    color={color}
+                    emissive={color}
+                    emissiveIntensity={2}
+                    metalness={0.4}
+                    roughness={0.18}
+                    transparent
+                    opacity={0.85}
+                  />
+                </mesh>
+              </group>
+            );
+          })}
+        </group>
+
+        <group ref={portal} position={[0, 1.65, 0]}>
+          <mesh rotation={[0.25, 0, 0]}>
+            <torusGeometry args={[0.65, 0.012, 8, 100]} />
+            <meshBasicMaterial
+              color="#d9c7ff"
+              transparent
+              opacity={0.65}
+              depthWrite={false}
+            />
+          </mesh>
+
+          <mesh rotation={[0, 0.5, 0]}>
+            <icosahedronGeometry args={[0.33, 1]} />
+            <meshBasicMaterial
+              color={color}
+              wireframe
+              transparent
+              opacity={0.55}
+              depthWrite={false}
+            />
+          </mesh>
+        </group>
+
+        <group position={[0, -1.75, 0]}>
+          <Text
+            fontSize={0.19}
+            maxWidth={2.8}
+            textAlign="center"
+            color="#ffffff"
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.004}
+            outlineColor="#171025"
+          >
+            {planet.title}
+          </Text>
+
+          <Text
+            position={[0, -0.27, 0]}
+            fontSize={0.085}
+            color="#a7f3ed"
+            anchorX="center"
+            anchorY="middle"
+          >
+            WORLD DISCOVERED
+          </Text>
+        </group>
+      </group>
+    </group>
+  );
+}
+type CityBuilding = {
+  id: number;
+  x: number;
+  z: number;
+  height: number;
+  width: number;
+  kind: number;
+};
+
+function makeCityBuildings(planet: PlanetData): CityBuilding[] {
+  let seed = 0;
+
+  for (const char of planet.id + planet.title) {
+    seed = (Math.imul(seed, 31) + char.charCodeAt(0)) | 0;
+  }
+
+  const random = () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) | 0;
+    return (seed >>> 0) / 4294967296;
+  };
+
+  const buildings: CityBuilding[] = [];
+
+  for (let x = -3; x <= 3; x++) {
+    for (let z = -3; z <= 3; z++) {
+      if (Math.abs(x) <= 1 && Math.abs(z) <= 1) continue;
+      if (random() < 0.14) continue;
+
+      buildings.push({
+        id: buildings.length,
+        x: x * 0.66,
+        z: z * 0.66,
+        height: 0.4 + random() * 1.7,
+        width: 0.25 + random() * 0.16,
+        kind: Math.floor(random() * 3),
+      });
+    }
+  }
+
+  return buildings;
+}
+
+function HiddenCityScene({
+  planet,
+  onBuildingClick,
+}: {
+  planet: PlanetData;
+  onBuildingClick: (id: number) => void;
+}) {
+  const color = PLANET_COLORS[planet.category];
+  const buildings = useMemo(
+    () => makeCityBuildings(planet),
+    [planet]
+  );
+
+  const city = useRef<THREE.Group>(null);
+  const beacon = useRef<THREE.Group>(null);
+
+  useFrame((state, delta) => {
+    if (city.current) {
+      city.current.rotation.y =
+        Math.sin(state.clock.elapsedTime * 0.08) * 0.025;
+    }
+
+    if (beacon.current) {
+      beacon.current.rotation.y += delta * 0.25;
+      beacon.current.position.y =
+        0.85 + Math.sin(state.clock.elapsedTime) * 0.12;
+    }
+  });
+
+  return (
+    <group ref={city} position={planet.position}>
+      <mesh position={[0, -1.05, 0]}>
+        <cylinderGeometry args={[3.7, 3.9, 0.25, 64]} />
+        <meshStandardMaterial
+          color="#111025"
+          metalness={0.75}
+          roughness={0.25}
+        />
+      </mesh>
+
+      <mesh position={[0, -0.91, 0]}>
+        <cylinderGeometry args={[3.6, 3.6, 0.015, 64]} />
+        <meshStandardMaterial
+          color="#201938"
+          metalness={0.5}
+          roughness={0.35}
+        />
+      </mesh>
+
+      {[-1.65, -0.99, -0.33, 0.33, 0.99, 1.65].map(
+        (offset) => (
+          <group key={offset}>
+            <mesh position={[offset, -0.88, 0]}>
+              <boxGeometry args={[0.035, 0.015, 5]} />
+              <meshBasicMaterial
+                color="#7b66c6"
+                transparent
+                opacity={0.4}
+              />
+            </mesh>
+            <mesh position={[0, -0.88, offset]}>
+              <boxGeometry args={[5, 0.015, 0.035]} />
+              <meshBasicMaterial
+                color="#7b66c6"
+                transparent
+                opacity={0.4}
+              />
+            </mesh>
+          </group>
+        )
+      )}
+
+      {buildings.map((building) => (
+        <group
+          key={building.id}
+          position={[building.x, -0.88, building.z]}
+          onClick={(event) => {
+            event.stopPropagation();
+            onBuildingClick(building.id);
+          }}
+        >
+          <mesh
+            position={[0, building.height / 2, 0]}
+            castShadow
+          >
+            <boxGeometry
+              args={[
+                building.width,
+                building.height,
+                building.width,
+              ]}
+            />
+            <meshStandardMaterial
+              color={
+                building.kind === 0
+                  ? "#302544"
+                  : building.kind === 1
+                    ? "#1b3349"
+                    : "#3c2943"
+              }
+              metalness={0.7}
+              roughness={0.2}
+              emissive={color}
+              emissiveIntensity={0.08}
+            />
+          </mesh>
+
+          <mesh
+            position={[
+              0,
+              building.height + 0.015,
+              0,
+            ]}
+          >
+            <boxGeometry
+              args={[building.width + 0.04, 0.03, building.width + 0.04]}
+            />
+            <meshBasicMaterial color={color} />
+          </mesh>
+
+          {Array.from(
+            {
+              length: Math.max(
+                1,
+                Math.floor(building.height / 0.18)
+              ),
+            },
+            (_, floor) => (
+              <mesh
+                key={floor}
+                position={[
+                  0,
+                  0.12 + floor * 0.18,
+                  building.width / 2 + 0.006,
+                ]}
+              >
+                <boxGeometry
+                  args={[
+                    building.width * 0.65,
+                    0.028,
+                    0.006,
+                  ]}
+                />
+                <meshBasicMaterial
+                  color={
+                    floor % 3 === 0
+                      ? "#fff0bf"
+                      : "#79dfe9"
+                  }
+                  transparent
+                  opacity={0.65}
+                />
+              </mesh>
+            )
+          )}
+        </group>
+      ))}
+
+      <group ref={beacon} position={[0, 0.85, 0]}>
+        <mesh>
+          <octahedronGeometry args={[0.38, 1]} />
+          <meshStandardMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={2.5}
+            metalness={0.25}
+            roughness={0.1}
+          />
+        </mesh>
+
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.65, 0.012, 8, 100]} />
+          <meshBasicMaterial color="#b7f8ff" />
+        </mesh>
+
+        <mesh rotation={[0.5, 0, 0.6]}>
+          <torusGeometry args={[0.85, 0.012, 8, 100]} />
+          <meshBasicMaterial color={color} />
+        </mesh>
+      </group>
+
+      {Array.from({ length: 12 }, (_, i) => {
+        const angle = (i / 12) * Math.PI * 2;
+
+        return (
+          <Float
+            key={i}
+            speed={1 + (i % 3) * 0.4}
+            floatIntensity={0.25}
+            rotationIntensity={0.15}
+          >
+            <mesh
+              position={[
+                Math.cos(angle) * 2.9,
+                0.4 + (i % 4) * 0.4,
+                Math.sin(angle) * 2.9,
+              ]}
+            >
+              <octahedronGeometry args={[0.055, 0]} />
+              <meshBasicMaterial color="#c5faff" />
+            </mesh>
+          </Float>
+        );
+      })}
+
+      <pointLight
+        position={[0, 2, 0]}
+        color={color}
+        intensity={15}
+        distance={9}
+      />
+
+      <pointLight
+        position={[2, 3, 2]}
+        color="#74e5e6"
+        intensity={9}
+        distance={9}
+      />
+    </group>
+  );
+}
+
+function HiddenCityCamera({
+  position,
+}: {
+  position: [number, number, number];
+}) {
+  const { camera } = useThree();
+  const controls = useRef<OrbitControlsImpl>(null);
+  const moving = useRef(true);
+
+  const focus = useMemo(
+    () => new THREE.Vector3(...position),
+    [position]
+  );
+
+  const destination = useMemo(
+    () => focus.clone().add(new THREE.Vector3(0, 2.3, 6.5)),
+    [focus]
+  );
+
+  useFrame((_, delta) => {
+    if (!controls.current || !moving.current) return;
+
+    const factor = 1 - Math.exp(-delta * 1.8);
+
+    camera.position.lerp(destination, factor);
+    controls.current.target.lerp(focus, factor);
+    controls.current.update();
+
+    if (
+      camera.position.distanceTo(destination) < 0.04 &&
+      controls.current.target.distanceTo(focus) < 0.04
+    ) {
+      moving.current = false;
+    }
+  });
+
+  return (
+    <OrbitControls
+      ref={controls}
+      makeDefault
+      enableDamping
+      dampingFactor={0.055}
+      enablePan
+      minDistance={1.1}
+      maxDistance={12}
+      maxPolarAngle={Math.PI * 0.83}
+      onStart={() => {
+        moving.current = false;
+      }}
+    />
+  );
+}
+
+export default function Universe({
+  planets,
+  connections,
+  selectedId,
+  connectingFrom,
+  onSelect,
+  resetSignal,
+}: UniverseProps) {
+  const [cityPlanetId, setCityPlanetId] = useState<string | null>(null);
+
+  // Retain the previous city implementation for compatibility.
+  void HiddenCityScene;
+  void HiddenCityCamera;
+
+  const planetMap = useMemo(
+    () => new Map(planets.map((planet) => [planet.id, planet])),
+    [planets]
+  );
+
+  const selectedPlanet = selectedId
+    ? planetMap.get(selectedId)
+    : undefined;
+
+  const cityPlanet = cityPlanetId
+    ? planetMap.get(cityPlanetId)
+    : undefined;
+
+  return (
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <div style={{ width: "100%", height: "100%" }}>
+        <Canvas
+          camera={{ position: [0, 0, 12], fov: 55 }}
+          dpr={[1, 1.75]}
+          gl={{ antialias: true, alpha: true }}
+          onPointerMissed={() => {
+            if (!connectingFrom) onSelect(null);
+          }}
+        >
+          <color attach="background" args={["#080713"]} />
+          <ambientLight intensity={0.65} />
+          <pointLight
+            position={[5, 4, 5]}
+            intensity={65}
+            color="#a88bff"
+          />
+          <pointLight
+            position={[-5, -3, 2]}
+            intensity={40}
+            color="#50e3d0"
+          />
+
+          <Stars
+            radius={90}
+            depth={50}
+            count={3500}
+            factor={4}
+            saturation={0.4}
+            fade
+            speed={0.5}
+          />
+
+          <CelestialAnomaly />
+
+          {connections.map((connection) => {
+            const source = planetMap.get(connection.sourceId);
+            const target = planetMap.get(connection.targetId);
+
+            if (!source || !target) return null;
+
+            return (
+              <ConnectionLine
+                key={connection.id}
+                source={source}
+                target={target}
+                highlighted={
+                  selectedId === source.id ||
+                  selectedId === target.id
+                }
+              />
+            );
+          })}
+
+          {planets.map((planet) => (
+            <LivingPlanet
+              key={planet.id}
+              data={planet}
+              selected={selectedId === planet.id}
+              connecting={connectingFrom === planet.id}
+              onSelect={() => onSelect(planet.id)}
+            />
+          ))}
+
+          {planets.map((planet) => (
+            <HiddenPlanetWorld
+              key={`hidden-${planet.id}`}
+              planet={planet}
+              selected={selectedId === planet.id}
+            />
+          ))}
+
+          <CameraRig
+            planets={planets}
+            selectedId={selectedId}
+            resetSignal={resetSignal}
+          />
+        </Canvas>
+      </div>
+
+      {!cityPlanet && selectedPlanet && !connectingFrom && (
+        <button
+          type="button"
+          onClick={() => setCityPlanetId(selectedPlanet.id)}
+          style={{
+            position: "absolute",
+            bottom: 85,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 25,
+            padding: "15px 24px",
+            borderRadius: 999,
+            border: "1px solid rgba(200,170,255,.6)",
+            background: "rgba(24,13,48,.93)",
+            color: "#f5eaff",
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+          }}
+        >
+          ✦ ENTER LIVING CITY
+        </button>
+      )}
+
+      {cityPlanet && (
+        <LivingCity
+          planet={cityPlanet}
+          onLeave={() => setCityPlanetId(null)}
+        />
+      )}
+    </div>
+  );
+}

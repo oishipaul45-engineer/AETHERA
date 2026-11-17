@@ -1,0 +1,270 @@
+﻿import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { OrbitControls, Stars, Float } from "@react-three/drei";
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+
+export type PlanetCategory =
+  | "Ideas"
+  | "Thoughts"
+  | "Notes"
+  | "Projects"
+  | "Goals";
+
+export interface PlanetData {
+  id: string;
+  title: string;
+  category: PlanetCategory;
+  content: string;
+  position: [number, number, number];
+}
+
+export const PLANET_COLORS: Record<PlanetCategory, string> = {
+  Ideas: "#a78bfa",
+  Thoughts: "#5fe1d0",
+  Notes: "#f3adcb",
+  Projects: "#ff936d",
+  Goals: "#f4ca79",
+};
+
+interface UniverseProps {
+  planets: PlanetData[];
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
+  resetSignal: number;
+}
+
+function LivingPlanet({
+  data,
+  selected,
+  onSelect,
+}: {
+  data: PlanetData;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  const mesh = useRef<THREE.Mesh>(null);
+  const ring = useRef<THREE.Group>(null);
+  const color = PLANET_COLORS[data.category];
+  const isCentral = data.id === "origin";
+  const radius = isCentral ? 1.35 : 0.52;
+
+  useFrame((state, delta) => {
+    if (mesh.current) {
+      mesh.current.rotation.y += delta * 0.12;
+      const pulse =
+        1 + Math.sin(state.clock.elapsedTime * 1.4) * 0.018;
+      mesh.current.scale.setScalar(pulse);
+    }
+
+    if (ring.current) {
+      ring.current.rotation.z += delta * 0.06;
+    }
+  });
+
+  return (
+    <group position={data.position}>
+      <Float
+        speed={1.2}
+        rotationIntensity={0.08}
+        floatIntensity={0.16}
+      >
+        <group>
+          <mesh
+            ref={mesh}
+            onClick={(event) => {
+              event.stopPropagation();
+              onSelect();
+            }}
+            onPointerOver={() => {
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={() => {
+              document.body.style.cursor = "auto";
+            }}
+          >
+            <sphereGeometry args={[radius, 64, 64]} />
+            <meshPhysicalMaterial
+              color={color}
+              metalness={0.25}
+              roughness={0.18}
+              clearcoat={1}
+              clearcoatRoughness={0.12}
+              emissive={color}
+              emissiveIntensity={selected ? 0.85 : 0.4}
+            />
+          </mesh>
+
+          <mesh scale={1.13}>
+            <sphereGeometry args={[radius, 48, 48]} />
+            <meshBasicMaterial
+              color={color}
+              transparent
+              opacity={0.09}
+              side={THREE.BackSide}
+              depthWrite={false}
+            />
+          </mesh>
+
+          <group ref={ring}>
+            <mesh rotation={[Math.PI / 2.6, 0.2, 0]}>
+              <torusGeometry
+                args={[radius * 1.48, 0.008, 8, 128]}
+              />
+              <meshBasicMaterial
+                color={color}
+                transparent
+                opacity={0.85}
+              />
+            </mesh>
+
+            {isCentral && (
+              <mesh rotation={[Math.PI / 2.1, 0.8, 0]}>
+                <torusGeometry
+                  args={[radius * 1.8, 0.006, 8, 128]}
+                />
+                <meshBasicMaterial
+                  color="#b9edff"
+                  transparent
+                  opacity={0.55}
+                />
+              </mesh>
+            )}
+          </group>
+
+          {selected && (
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+              <torusGeometry
+                args={[radius * 2.05, 0.012, 8, 128]}
+              />
+              <meshBasicMaterial color="#ffffff" />
+            </mesh>
+          )}
+        </group>
+      </Float>
+    </group>
+  );
+}
+
+function CameraRig({
+  planets,
+  selectedId,
+  resetSignal,
+}: {
+  planets: PlanetData[];
+  selectedId: string | null;
+  resetSignal: number;
+}) {
+  const { camera } = useThree();
+  const controls = useRef<OrbitControlsImpl>(null);
+  const target = useRef(new THREE.Vector3());
+  const destination = useRef(new THREE.Vector3(0, 0, 12));
+  const moving = useRef(true);
+
+  useEffect(() => {
+    const planet = planets.find((p) => p.id === selectedId);
+
+    if (planet) {
+      target.current.set(...planet.position);
+      destination.current
+        .copy(target.current)
+        .add(new THREE.Vector3(0, 0.8, 4.5));
+    } else {
+      target.current.set(0, 0, 0);
+      destination.current.set(0, 0, 12);
+    }
+
+    moving.current = true;
+  }, [selectedId, resetSignal, planets]);
+
+  useFrame((_, delta) => {
+    if (!controls.current || !moving.current) return;
+
+    const factor = 1 - Math.exp(-delta * 2.5);
+
+    camera.position.lerp(destination.current, factor);
+    controls.current.target.lerp(target.current, factor);
+    controls.current.update();
+
+    if (
+      camera.position.distanceTo(destination.current) < 0.025 &&
+      controls.current.target.distanceTo(target.current) < 0.025
+    ) {
+      moving.current = false;
+    }
+  });
+
+  return (
+    <OrbitControls
+      ref={controls}
+      makeDefault
+      enablePan
+      enableDamping
+      dampingFactor={0.045}
+      minDistance={1.8}
+      maxDistance={35}
+      autoRotate={!selectedId}
+      autoRotateSpeed={0.18}
+      onStart={() => {
+        moving.current = false;
+      }}
+    />
+  );
+}
+
+export default function Universe({
+  planets,
+  selectedId,
+  onSelect,
+  resetSignal,
+}: UniverseProps) {
+  return (
+    <Canvas
+      camera={{ position: [0, 0, 12], fov: 55 }}
+      dpr={[1, 1.75]}
+      gl={{ antialias: true, alpha: true }}
+      onPointerMissed={() => onSelect(null)}
+    >
+      <color attach="background" args={["#080713"]} />
+
+      <ambientLight intensity={0.65} />
+
+      <pointLight
+        position={[5, 4, 5]}
+        intensity={65}
+        color="#a88bff"
+      />
+
+      <pointLight
+        position={[-5, -3, 2]}
+        intensity={40}
+        color="#50e3d0"
+      />
+
+      <Stars
+        radius={90}
+        depth={50}
+        count={3500}
+        factor={4}
+        saturation={0.4}
+        fade
+        speed={0.5}
+      />
+
+      {planets.map((planet) => (
+        <LivingPlanet
+          key={planet.id}
+          data={planet}
+          selected={selectedId === planet.id}
+          onSelect={() => onSelect(planet.id)}
+        />
+      ))}
+
+      <CameraRig
+        planets={planets}
+        selectedId={selectedId}
+        resetSignal={resetSignal}
+      />
+    </Canvas>
+  );
+}

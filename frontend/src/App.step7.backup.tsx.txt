@@ -1,0 +1,405 @@
+﻿import { useEffect, useState } from "react";
+import Universe, {
+  PLANET_COLORS,
+  type PlanetCategory,
+  type PlanetData,
+} from "./components/universe/Universe";
+import "./App.css";
+
+const STORAGE_KEY = "aethera_planets_v1";
+
+const initialPlanets: PlanetData[] = [
+  {
+    id: "origin",
+    title: "The Beginning",
+    category: "Ideas",
+    content: "Every universe begins with a single thought.",
+    position: [0, 0, 0],
+  },
+  {
+    id: "thoughts-1",
+    title: "Inner Reflections",
+    category: "Thoughts",
+    content: "A quiet space for thoughts and reflections.",
+    position: [-4.5, 2, -1.5],
+  },
+  {
+    id: "notes-1",
+    title: "Fragments",
+    category: "Notes",
+    content: "Small moments worth remembering.",
+    position: [4.5, 2.5, -2],
+  },
+  {
+    id: "projects-1",
+    title: "Future Creations",
+    category: "Projects",
+    content: "A home for everything I want to build.",
+    position: [-4, -2.8, -1],
+  },
+  {
+    id: "goals-1",
+    title: "Beyond the Horizon",
+    category: "Goals",
+    content: "Dreams waiting to become reality.",
+    position: [4.5, -2.5, -1],
+  },
+];
+
+const categories: PlanetCategory[] = [
+  "Ideas",
+  "Thoughts",
+  "Notes",
+  "Projects",
+  "Goals",
+];
+
+function loadPlanets(): PlanetData[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return initialPlanets;
+
+    const parsed: unknown = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return initialPlanets;
+
+    const valid = parsed.every((item) => {
+      if (!item || typeof item !== "object") return false;
+      const p = item as Partial<PlanetData>;
+
+      return (
+        typeof p.id === "string" &&
+        typeof p.title === "string" &&
+        typeof p.content === "string" &&
+        categories.includes(p.category as PlanetCategory) &&
+        Array.isArray(p.position) &&
+        p.position.length === 3 &&
+        p.position.every(
+          (n: unknown) =>
+            typeof n === "number" && Number.isFinite(n)
+        )
+      );
+    });
+
+    return valid ? (parsed as PlanetData[]) : initialPlanets;
+  } catch {
+    return initialPlanets;
+  }
+}
+
+function App() {
+  const [planets, setPlanets] = useState<PlanetData[]>(loadPlanets);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [resetSignal, setResetSignal] = useState(0);
+  const [saveError, setSaveError] = useState(false);
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newCategory, setNewCategory] =
+    useState<PlanetCategory>("Ideas");
+
+  const selected = planets.find((p) => p.id === selectedId);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(planets));
+      setSaveError(false);
+    } catch {
+      setSaveError(true);
+    }
+  }, [planets]);
+
+  function updatePlanet(changes: Partial<PlanetData>) {
+    if (!selectedId) return;
+
+    setPlanets((current) =>
+      current.map((p) =>
+        p.id === selectedId ? { ...p, ...changes } : p
+      )
+    );
+  }
+
+  function createPlanet() {
+    const title = newTitle.trim();
+    if (!title) return;
+
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 5 + Math.random() * 3;
+
+    const planet: PlanetData = {
+      id: crypto.randomUUID(),
+      title,
+      category: newCategory,
+      content: "",
+      position: [
+        Math.cos(angle) * distance,
+        Math.sin(angle) * distance,
+        (Math.random() - 0.5) * 3,
+      ],
+    };
+
+    setPlanets((current) => [...current, planet]);
+    setSelectedId(planet.id);
+    setNewTitle("");
+    setCreating(false);
+  }
+
+  function deletePlanet() {
+    if (!selectedId) return;
+
+    if (!window.confirm("Delete this planet permanently?")) {
+      return;
+    }
+
+    setPlanets((current) =>
+      current.filter((p) => p.id !== selectedId)
+    );
+    setSelectedId(null);
+    setResetSignal((n) => n + 1);
+  }
+
+  function resetView() {
+    setSelectedId(null);
+    setCreating(false);
+    setResetSignal((n) => n + 1);
+  }
+
+  return (
+    <main className="aethera">
+      <div className="universe">
+        <Universe
+          planets={planets}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          resetSignal={resetSignal}
+        />
+      </div>
+
+      <header className="topbar">
+        <div className="brand">
+          <span className="brand-symbol">✦</span>
+          AETHERA
+        </div>
+
+        <span className="topbar-status">
+          <span className="status-dot" />
+          {saveError ? "SAVE FAILED" : "YOUR UNIVERSE IS ALIVE"}
+        </span>
+      </header>
+
+      {!selected && !creating && (
+        <section className="hero">
+          <div className="eyebrow">
+            WELCOME TO YOUR INFINITE SPACE
+          </div>
+
+          <h1>
+            Your mind.
+            <br />
+            <span>Your universe.</span>
+          </h1>
+
+          <p>
+            Every thought is a world waiting to be discovered.
+            A space where ideas become celestial.
+          </p>
+
+          <button
+            className="primary-button"
+            onClick={() => setCreating(true)}
+          >
+            + CREATE A PLANET
+          </button>
+        </section>
+      )}
+
+      <aside className="planet-list">
+        <div className="list-heading">YOUR CONSTELLATION</div>
+
+        <div className="planet-count">
+          {planets.length} WORLDS DISCOVERED
+        </div>
+
+        {planets.map((planet) => (
+          <button
+            key={planet.id}
+            className={
+              "planet-list-item " +
+              (selectedId === planet.id ? "active" : "")
+            }
+            onClick={() => {
+              setCreating(false);
+              setSelectedId(planet.id);
+            }}
+          >
+            <span
+              className="planet-dot"
+              style={{
+                background: PLANET_COLORS[planet.category],
+              }}
+            />
+            <span className="planet-list-label">
+              <strong>{planet.title}</strong>
+              <small>{planet.category}</small>
+            </span>
+          </button>
+        ))}
+
+        <button
+          className="list-create"
+          onClick={() => {
+            setSelectedId(null);
+            setCreating(true);
+          }}
+        >
+          + NEW WORLD
+        </button>
+      </aside>
+
+      {selected && !creating && (
+        <section className="editor-panel">
+          <div className="panel-top">
+            <span>✦ PLANET EXPLORER</span>
+            <button
+              className="close-button"
+              onClick={resetView}
+              aria-label="Close planet editor"
+            >
+              ×
+            </button>
+          </div>
+
+          <div
+            className="editor-orb"
+            style={{
+              background: `radial-gradient(circle at 30% 25%,
+                #ffffff88, ${PLANET_COLORS[selected.category]})`,
+              boxShadow: `0 0 45px ${PLANET_COLORS[selected.category]}55`,
+            }}
+          />
+
+          <label htmlFor="planet-title">PLANET NAME</label>
+          <input
+            id="planet-title"
+            value={selected.title}
+            maxLength={100}
+            onChange={(e) =>
+              updatePlanet({ title: e.target.value })
+            }
+          />
+
+          <label htmlFor="planet-category">CATEGORY</label>
+          <select
+            id="planet-category"
+            value={selected.category}
+            onChange={(e) =>
+              updatePlanet({
+                category: e.target.value as PlanetCategory,
+              })
+            }
+          >
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="planet-content">YOUR THOUGHTS</label>
+          <textarea
+            id="planet-content"
+            value={selected.content}
+            placeholder="Write something meaningful..."
+            rows={6}
+            onChange={(e) =>
+              updatePlanet({ content: e.target.value })
+            }
+          />
+
+          <div className="save-indicator">
+            {saveError
+              ? "Unable to save in this browser"
+              : "✧ Saved locally"}
+          </div>
+
+          <button
+            className="delete-button"
+            onClick={deletePlanet}
+          >
+            DELETE PLANET
+          </button>
+        </section>
+      )}
+
+      {creating && (
+        <section className="editor-panel create-panel">
+          <div className="panel-top">
+            <span>✦ BIRTH OF A NEW WORLD</span>
+            <button
+              className="close-button"
+              onClick={() => setCreating(false)}
+              aria-label="Close creation form"
+            >
+              ×
+            </button>
+          </div>
+
+          <h2>Create a planet.</h2>
+          <p>
+            Give your thought a name, and let it find its
+            place among the stars.
+          </p>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              createPlanet();
+            }}
+          >
+            <label htmlFor="new-title">PLANET NAME</label>
+            <input
+              id="new-title"
+              value={newTitle}
+              maxLength={100}
+              autoFocus
+              placeholder="A new beginning..."
+              onChange={(e) => setNewTitle(e.target.value)}
+            />
+
+            <label htmlFor="new-category">CATEGORY</label>
+            <select
+              id="new-category"
+              value={newCategory}
+              onChange={(e) =>
+                setNewCategory(e.target.value as PlanetCategory)
+              }
+            >
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+
+            <button
+              className="primary-button create-submit"
+              type="submit"
+              disabled={!newTitle.trim()}
+            >
+              ✦ BRING PLANET TO LIFE
+            </button>
+          </form>
+        </section>
+      )}
+
+      <div className="bottom-info">
+        <span>✧ A UNIVERSE OF POSSIBILITIES</span>
+        <button onClick={resetView}>
+          RESET VIEW ↗
+        </button>
+        <span>DRAG TO EXPLORE · SCROLL TO ZOOM</span>
+      </div>
+    </main>
+  );
+}
+
+export default App;

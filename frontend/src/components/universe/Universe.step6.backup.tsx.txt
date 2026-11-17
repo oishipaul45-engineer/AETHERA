@@ -1,0 +1,118 @@
+﻿import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Stars, Float } from "@react-three/drei";
+import { useRef } from "react";
+import * as THREE from "three";
+
+function Planet() {
+  const planet = useRef<THREE.Mesh>(null);
+  const ring = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    if (planet.current) {
+      planet.current.rotation.y += delta * 0.12;
+    }
+
+    if (ring.current) {
+      ring.current.rotation.z += delta * 0.08;
+    }
+
+    const t = state.clock.elapsedTime;
+
+    if (planet.current) {
+      const pulse = 1 + Math.sin(t * 1.4) * 0.025;
+      planet.current.scale.setScalar(pulse);
+    }
+  });
+
+  return (
+    <group>
+      <Float speed={1.5} rotationIntensity={0.15} floatIntensity={0.35}>
+        <mesh ref={planet}>
+          <sphereGeometry args={[1.6, 64, 64]} />
+          <meshPhysicalMaterial
+            color="#7955d9"
+            metalness={0.25}
+            roughness={0.18}
+            clearcoat={1}
+            clearcoatRoughness={0.12}
+            emissive="#4a2595"
+            emissiveIntensity={0.65}
+          />
+        </mesh>
+
+        <mesh scale={1.12}>
+          <sphereGeometry args={[1.6, 48, 48]} />
+          <meshBasicMaterial
+            color="#9b73ff"
+            transparent
+            opacity={0.08}
+            side={THREE.BackSide}
+            depthWrite={false}
+          />
+        </mesh>
+
+        <mesh ref={ring} rotation={[Math.PI / 2.6, 0.2, 0]}>
+          <torusGeometry args={[2.35, 0.012, 12, 180]} />
+          <meshBasicMaterial color="#9cecff" />
+        </mesh>
+
+        <mesh rotation={[Math.PI / 2.1, 0.8, 0]}>
+          <torusGeometry args={[2.7, 0.007, 12, 180]} />
+          <meshBasicMaterial
+            color="#c8a4ff"
+            transparent
+            opacity={0.6}
+          />
+        </mesh>
+      </Float>
+    </group>
+  );
+}
+
+export default function Universe() {
+  return (
+    <Canvas
+      camera={{ position: [0, 0, 8], fov: 55 }}
+      dpr={[1, 1.75]}
+      gl={{ antialias: true, alpha: true }}
+    >
+      <color attach="background" args={["#080713"]} />
+
+      <ambientLight intensity={0.6} />
+
+      <pointLight
+        position={[5, 4, 5]}
+        intensity={65}
+        color="#a88bff"
+      />
+
+      <pointLight
+        position={[-5, -3, 2]}
+        intensity={40}
+        color="#50e3d0"
+      />
+
+      <Stars
+        radius={90}
+        depth={50}
+        count={3500}
+        factor={4}
+        saturation={0.4}
+        fade
+        speed={0.5}
+      />
+
+      <Planet />
+
+      <OrbitControls
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.045}
+        minDistance={4}
+        maxDistance={14}
+        autoRotate
+        autoRotateSpeed={0.25}
+      />
+    </Canvas>
+  );
+}
