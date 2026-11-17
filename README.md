@@ -1,7 +1,5 @@
 
-cd C:\Users\Oishi\Desktop\AETHERA
 
-$readme = @'
 <div align="center">
 
 # AETHERA
