@@ -1,0 +1,38 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+<defs>
+<radialGradient id="bg">
+<stop offset="0" stop-color="#292047"/>
+<stop offset="1" stop-color="#0E0B1E"/>
+</radialGradient>
+<radialGradient id="planet" cx="32%" cy="26%" r="80%">
+<stop offset="0" stop-color="#FFFFFF"/>
+<stop offset=".22" stop-color="#77E2D5"/>
+<stop offset=".72" stop-color="#77E2D5" stop-opacity=".72"/>
+<stop offset="1" stop-color="#171026"/>
+</radialGradient>
+<filter id="glow">
+<feGaussianBlur stdDeviation="17"/>
+</filter>
+</defs>
+<rect width="800" height="400" rx="24" fill="url(#bg)"/>
+<g fill="#FFFFFF" opacity=".55">
+<circle cx="45" cy="42" r="1.5"/>
+<circle cx="128" cy="110" r="1"/>
+<circle cx="710" cy="55" r="1.5"/>
+<circle cx="610" cy="310" r="1"/>
+<circle cx="754" cy="280" r="1.5"/>
+<circle cx="395" cy="65" r="1"/>
+<circle cx="525" cy="345" r="1"/>
+</g>
+<circle cx="610" cy="190" r="112" fill="#77E2D5" opacity=".23" filter="url(#glow)"/>
+<ellipse cx="610" cy="190" rx="153" ry="54" transform="rotate(-24 610 190)" fill="none" stroke="#77E2D5" stroke-width="2" opacity=".7"/>
+<circle cx="610" cy="190" r="91" fill="url(#planet)"/>
+<circle cx="581" cy="150" r="21" fill="#FFFFFF" opacity=".13"/>
+<ellipse cx="610" cy="190" rx="153" ry="54" transform="rotate(-24 610 190)" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity=".38" stroke-dasharray="5 9"/>
+<text x="54" y="69" fill="#77E2D5" font-size="17" font-family="Arial" letter-spacing="5">AETHERA / WORLDS</text>
+<text x="54" y="184" fill="#FFFFFF" font-size="51" font-weight="bold" font-family="Arial" letter-spacing="3">THOUGHTS</text>
+<text x="56" y="224" fill="#77E2D5" font-size="16" font-family="Arial" letter-spacing="2">THE ECHO CITY</text>
+<line x1="56" y1="253" x2="302" y2="253" stroke="#77E2D5" opacity=".5"/>
+<text x="56" y="290" fill="#D3CAE5" font-size="16" font-family="Arial">Where connections emerge.</text>
+<text x="56" y="355" fill="#807699" font-size="13" font-family="Arial" letter-spacing="3">EXPLORE YOUR INNER UNIVERSE</text>
+</svg>
