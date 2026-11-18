@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src=".github/assets/aethera-universe.png" width="100%" alt="AETHERA — immersive 3D personal universe" />
+<img src=".github/assets/aethera-universe.png" width="100%" alt="AETHERA â€” immersive 3D personal universe" />
 
 # A E T H E R A
 
-### ✦ BEYOND IMAGINATION ✦
+### âœ¦ BEYOND IMAGINATION âœ¦
 
 **YOUR MIND IS NOT A COLLECTION OF FOLDERS. IT IS AN ENTIRE UNIVERSE.**
 
@@ -29,7 +29,7 @@ Your goals shouldn't feel like another checklist.
 
 **AETHERA transforms the way you experience your own mind.**
 
-An immersive personal universe where ideas, thoughts, notes, projects, and goals become worlds you can explore — now with a magical 3D library for the things you want to keep.
+An immersive personal universe where ideas, thoughts, notes, projects, and goals become worlds you can explore â€” now with a magical 3D library for the things you want to keep.
 
 **Not just productivity. A different way of thinking.**
 
@@ -47,12 +47,12 @@ An immersive personal universe where ideas, thoughts, notes, projects, and goals
 
 </div>
 
-| ✦ IDEAS | ✧ THOUGHTS |
+| âœ¦ IDEAS | âœ§ THOUGHTS |
 |:---:|:---:|
 | <img src=".github/assets/ideas.svg" width="100%" alt="Ideas planet" /> | <img src=".github/assets/thoughts.svg" width="100%" alt="Thoughts planet" /> |
 | Grow possibilities through interactive stages of development. | Combine thoughts and discover relationships between them. |
 
-| ◈ NOTES | ◇ PROJECTS |
+| â—ˆ NOTES | â—‡ PROJECTS |
 |:---:|:---:|
 | <img src=".github/assets/notes.svg" width="100%" alt="Notes planet" /> | <img src=".github/assets/projects.svg" width="100%" alt="Projects planet" /> |
 | Create a personal archive for your knowledge. | Build and assemble interactive creations. |
@@ -61,7 +61,7 @@ An immersive personal universe where ideas, thoughts, notes, projects, and goals
 
 <img src=".github/assets/goals.svg" width="62%" alt="Goals planet" />
 
-### ✷ GOALS
+### âœ· GOALS
 
 Turn your ambitions into milestones and track their progress.
 
@@ -93,9 +93,6 @@ Enter a warm, atmospheric library filled with towering bookshelves, floating lig
 
 # EVERY PAGE HOLDS A UNIVERSE.
 
-<img src=".github/assets/infinite-books.png" width="100%" alt="Actual screenshot of AETHERA Infinite Books showing an open personal book, a memory photograph, and editing controls" />
-
-*Actual screenshot of Infinite Books with a saved memory page.*
 
 </div>
 
@@ -103,10 +100,10 @@ Create personal books, add pages, turn through memories, and return to them when
 
 | | | |
 |---|---|---|
-| 📷 Memory | 💌 Letter | 🎙️ Voice |
-| ⏳ Time Capsule | 🌙 Dream | 🗺️ Map |
-| 🎨 Drawing | 📜 Timeline | 🔒 Secret |
-| ✨ Interactive | 🎵 Music | 🎁 Keepsake |
+| ðŸ“· Memory | ðŸ’Œ Letter | ðŸŽ™ï¸ Voice |
+| â³ Time Capsule | ðŸŒ™ Dream | ðŸ—ºï¸ Map |
+| ðŸŽ¨ Drawing | ðŸ“œ Timeline | ðŸ”’ Secret |
+| âœ¨ Interactive | ðŸŽµ Music | ðŸŽ Keepsake |
 
 **Included interactions:** book creation and renaming, adding/editing/deleting pages, animated page transitions, image and file attachments, drawing, recording controls, page sound, and import/export backups. Available fields vary by page type; some media features depend on browser permissions and supported formats.
 
@@ -126,14 +123,14 @@ AETHERA's planetary experience includes an explorable 3D city, perspective switc
 
 | EXPERIENCE | WHAT IT MEANS |
 |---|---|
-| 🪐 **Living universe** | Navigate an interactive planetary system |
-| ✦ **Connected worlds** | Build connections between planets |
-| 🏙️ **City exploration** | Explore a walkable 3D environment |
-| 🎮 **Camera perspectives** | Switch between first-person and third-person views |
-| 🧩 **Interactive activities** | Engage with category-specific experiences |
-| 📚 **Grand Library** | Wander through a separate atmospheric 3D library |
-| 📖 **Infinite Books** | Create and revisit personal multimedia books |
-| 💾 **Local persistence** | Store data in your browser; export Infinite Books backups |
+| ðŸª **Living universe** | Navigate an interactive planetary system |
+| âœ¦ **Connected worlds** | Build connections between planets |
+| ðŸ™ï¸ **City exploration** | Explore a walkable 3D environment |
+| ðŸŽ® **Camera perspectives** | Switch between first-person and third-person views |
+| ðŸ§© **Interactive activities** | Engage with category-specific experiences |
+| ðŸ“š **Grand Library** | Wander through a separate atmospheric 3D library |
+| ðŸ“– **Infinite Books** | Create and revisit personal multimedia books |
+| ðŸ’¾ **Local persistence** | Store data in your browser; export Infinite Books backups |
 
 **Planetary city controls**
 
@@ -231,7 +228,7 @@ Then open `http://127.0.0.1:8811/index.html`.
 
 <div align="center">
 
-# ✦ YOUR UNIVERSE IS WAITING ✦
+# âœ¦ YOUR UNIVERSE IS WAITING âœ¦
 
 **Every thought is a world. Every connection is a constellation.**
 
