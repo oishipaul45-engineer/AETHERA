@@ -1,241 +1,178 @@
 <div align="center">
 
-<img src=".github/assets/aethera-universe.png" width="100%" alt="AETHERA â€” immersive 3D personal universe" />
+<sub>✦ &nbsp; AN IMMERSIVE EXPERIENCE IN STORYTELLING &nbsp; ✦</sub>
+
+<br><br>
 
 # A E T H E R A
 
-### âœ¦ BEYOND IMAGINATION âœ¦
+### THE LIBRARY OF UNSPOKEN THINGS
 
-**YOUR MIND IS NOT A COLLECTION OF FOLDERS. IT IS AN ENTIRE UNIVERSE.**
+*Some stories are never told. Some memories never fade.*  
+*Somewhere between the two, a library waits.*
 
-[![Enter AETHERA](https://img.shields.io/badge/ENTER_THE_UNIVERSE-LIVE_EXPERIENCE-C8AFFF?style=for-the-badge&labelColor=171129)](https://aethera-nine.vercel.app/)
-[![Explore the code](https://img.shields.io/badge/EXPLORE_THE_CODE-GITHUB-7EE0D3?style=for-the-badge&logo=github&labelColor=171129)](https://github.com/oishipaul45-engineer/AETHERA)
+<br>
 
-<img src="https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=600&size=23&duration=3200&pause=1100&color=C8AFFF&center=true&vCenter=true&width=780&lines=Every+thought+is+a+world.;Every+idea+is+a+new+possibility.;Every+connection+is+a+constellation.;Welcome+to+your+universe." alt="AETHERA animated introduction" />
+<img src=".github/assets/grand-library.png" width="100%" alt="Actual AETHERA 3D Grand Library with towering bookshelves, warm amber light, and a star-filled ceiling" />
+
+<br>
+
+**NOT ANOTHER NOTES APP. A PLACE TO GET LOST IN YOUR OWN STORIES.**
+
+<br>
+
+[![Explore the library source](https://img.shields.io/badge/EXPLORE_THE_LIBRARY-SOURCE_CODE-BB91A8?style=for-the-badge&labelColor=241727)](./AETHERA-3D-LIBRARY/)
+[![GitHub repository](https://img.shields.io/badge/AETHERA-GITHUB-D5B58A?style=for-the-badge&logo=github&logoColor=white&labelColor=241727)](https://github.com/oishipaul45-engineer/AETHERA)
+
+<sub>✧ &nbsp; THREE-DIMENSIONAL · PERSONAL · INTERACTIVE &nbsp; ✧</sub>
 
 </div>
+
+<br>
 
 ---
 
 <div align="center">
 
-### 01 / THE EXPERIENCE
+<sub>CHAPTER I — THE THRESHOLD</sub>
 
-# WHAT IF YOU COULD WALK THROUGH YOUR OWN IMAGINATION?
+## A LIBRARY THAT REMEMBERS
 
-Your ideas shouldn't disappear into forgotten notes.  
-Your thoughts shouldn't be trapped inside ordinary interfaces.  
-Your goals shouldn't feel like another checklist.
-
-**AETHERA transforms the way you experience your own mind.**
-
-An immersive personal universe where ideas, thoughts, notes, projects, and goals become worlds you can explore â€” now with a magical 3D library for the things you want to keep.
-
-**Not just productivity. A different way of thinking.**
+*The world outside moves quickly. Here, your stories can stay.*
 
 </div>
+
+Imagine stepping into a quiet hall of towering bookshelves, beneath a sky scattered with stars. Warm light catches the spines of forgotten books. Somewhere in the distance, a story is waiting for you to open it.
+
+**AETHERA** is an explorable, browser-based 3D library where the act of remembering becomes an experience. Wander its aisles, discover interactive books, and create a collection that belongs entirely to you.
+
+This is a working, evolving prototype—not a rendered concept.
+
+<br>
+
+<div align="center">
+
+<sub>CHAPTER II — THE COLLECTION</sub>
+
+## INFINITE BOOKS
+
+### Every page holds something worth keeping.
+
+</div>
+
+A book can be a diary, a letter never sent, a place you miss, a song you associate with someone, or a memory you want to revisit. **Infinite Books** lets you build your own collection and turn those moments into pages.
+
+<table>
+<tr><td width="33%"><b>✦ Memory</b><br><sub>Photographs, videos & moments</sub></td><td width="33%"><b>✉ Letter</b><br><sub>Words meant for someone</sub></td><td width="33%"><b>♫ Voice</b><br><sub>Audio & recorded thoughts</sub></td></tr>
+<tr><td><b>⌛ Time Capsule</b><br><sub>Messages for a future date</sub></td><td><b>☾ Dream</b><br><sub>Fragments of imagination</sub></td><td><b>⌖ Map</b><br><sub>Places with meaning</sub></td></tr>
+<tr><td><b>✎ Drawing</b><br><sub>Sketch directly on a page</sub></td><td><b>⟡ Timeline</b><br><sub>Moments in sequence</sub></td><td><b>✧ Secret</b><br><sub>Passphrase-gated pages</sub></td></tr>
+<tr><td><b>◇ Interactive</b><br><sub>Hidden words to reveal</sub></td><td><b>♪ Music</b><br><sub>Songs & playlist links</sub></td><td><b>❖ Keepsake</b><br><sub>Meaningful digital mementos</sub></td></tr>
+</table>
+
+<div align="center">
+
+**CREATE A BOOK &nbsp; · &nbsp; TURN ITS PAGES &nbsp; · &nbsp; KEEP THE STORY**
+
+</div>
+
+The collection supports adding, editing, and deleting pages; animated page turns; optional page sounds; attachments; and import/export backups. Book data is saved locally in your browser using IndexedDB.
+
+> **A note on privacy:** Your personal books are stored in the browser where you create them, not automatically synced to an account. Export backups regularly. Secret-page passphrases are a local access gate, **not encryption**.
+
+<br>
 
 ---
 
 <div align="center">
 
-### 02 / THE CIVILIZATIONS
+<sub>CHAPTER III — THE ATMOSPHERE</sub>
 
-# FIVE WORLDS. ONE UNIVERSE.
-
-*Each planet has its own purpose. Every world has a story.*
+## BUILT TO BE FELT
 
 </div>
 
-| âœ¦ IDEAS | âœ§ THOUGHTS |
-|:---:|:---:|
-| <img src=".github/assets/ideas.svg" width="100%" alt="Ideas planet" /> | <img src=".github/assets/thoughts.svg" width="100%" alt="Thoughts planet" /> |
-| Grow possibilities through interactive stages of development. | Combine thoughts and discover relationships between them. |
+| THE SPACE | THE EXPERIENCE |
+|:--|:--|
+| **An explorable hall** | Walk through a dimensional library lined with bookshelves. |
+| **Light & atmosphere** | Warm amber illumination, floating particles, and a star-filled backdrop. |
+| **Stories within stories** | Open interactive books and build a personal collection. |
+| **Pages with presence** | Turn pages with animated transitions and optional sound. |
+| **A living archive** | Return to saved books in the same browser and export backups. |
 
-| â—ˆ NOTES | â—‡ PROJECTS |
-|:---:|:---:|
-| <img src=".github/assets/notes.svg" width="100%" alt="Notes planet" /> | <img src=".github/assets/projects.svg" width="100%" alt="Projects planet" /> |
-| Create a personal archive for your knowledge. | Build and assemble interactive creations. |
+**Explore:** `W` `A` `S` `D` to move · **Drag** to look around · **Click** a glowing book to read · **My Infinite Books** to open your collection.
 
-<div align="center">
-
-<img src=".github/assets/goals.svg" width="62%" alt="Goals planet" />
-
-### âœ· GOALS
-
-Turn your ambitions into milestones and track their progress.
-
-</div>
+<br>
 
 ---
 
 <div align="center">
 
-### 03 / THE LIBRARY OF UNSPOKEN THINGS
+<sub>CHAPTER IV — UNDER THE DUST JACKET</sub>
 
-# SOME STORIES DESERVE THEIR OWN UNIVERSE.
+## THE CRAFT
 
-<img src=".github/assets/grand-library.png" width="100%" alt="Actual screenshot of AETHERA's immersive 3D Grand Library, with towering bookshelves and warm lighting" />
-
-*Actual screenshot from the working AETHERA 3D Library.*
-
-</div>
-
-Enter a warm, atmospheric library filled with towering bookshelves, floating lights, and books waiting to be explored. Move around the space using **W A S D**, drag to look around, and click a glowing book to read.
-
-**The Grand Library is a separate browser-based experience** within the AETHERA project. Its source lives in [`AETHERA-3D-LIBRARY/`](./AETHERA-3D-LIBRARY/).
-
----
-
-<div align="center">
-
-### 04 / INFINITE BOOKS
-
-# EVERY PAGE HOLDS A UNIVERSE.
-
+![JavaScript](https://img.shields.io/badge/JavaScript-241727?style=flat-square&logo=javascript&logoColor=F4D98A)
+![Three.js](https://img.shields.io/badge/Three.js-241727?style=flat-square&logo=threedotjs&logoColor=FFFFFF)
+![HTML5](https://img.shields.io/badge/HTML5-241727?style=flat-square&logo=html5&logoColor=E9A97F)
+![CSS3](https://img.shields.io/badge/CSS3-241727?style=flat-square&logo=css&logoColor=BB91A8)
+![IndexedDB](https://img.shields.io/badge/IndexedDB-241727?style=flat-square&logoColor=FFFFFF)
 
 </div>
 
-Create personal books, add pages, turn through memories, and return to them whenever you like. The working editor supports **12 page types**:
+The standalone library is built with **JavaScript, Three.js, HTML, and CSS**. Infinite Books uses **IndexedDB** for local persistence and browser media APIs for supported attachments and recordings. Other experimental AETHERA work may also exist elsewhere in this repository.
 
-| | | |
-|---|---|---|
-| ðŸ“· Memory | ðŸ’Œ Letter | ðŸŽ™ï¸ Voice |
-| â³ Time Capsule | ðŸŒ™ Dream | ðŸ—ºï¸ Map |
-| ðŸŽ¨ Drawing | ðŸ“œ Timeline | ðŸ”’ Secret |
-| âœ¨ Interactive | ðŸŽµ Music | ðŸŽ Keepsake |
-
-**Included interactions:** book creation and renaming, adding/editing/deleting pages, animated page transitions, image and file attachments, drawing, recording controls, page sound, and import/export backups. Available fields vary by page type; some media features depend on browser permissions and supported formats.
-
-**Privacy note:** Infinite Books data is stored locally in the browser. It does **not** automatically sync to GitHub or between devices. Export backups regularly; clearing browser data may remove your books. Secret-page passphrases are a local access gate, **not encryption**.
-
----
-
-<div align="center">
-
-### 05 / IMMERSIVE EXPLORATION
-
-# DON'T JUST VIEW YOUR WORLD. ENTER IT.
-
-</div>
-
-AETHERA's planetary experience includes an explorable 3D city, perspective switching, and activities tied to your personal universe.
-
-| EXPERIENCE | WHAT IT MEANS |
-|---|---|
-| ðŸª **Living universe** | Navigate an interactive planetary system |
-| âœ¦ **Connected worlds** | Build connections between planets |
-| ðŸ™ï¸ **City exploration** | Explore a walkable 3D environment |
-| ðŸŽ® **Camera perspectives** | Switch between first-person and third-person views |
-| ðŸ§© **Interactive activities** | Engage with category-specific experiences |
-| ðŸ“š **Grand Library** | Wander through a separate atmospheric 3D library |
-| ðŸ“– **Infinite Books** | Create and revisit personal multimedia books |
-| ðŸ’¾ **Local persistence** | Store data in your browser; export Infinite Books backups |
-
-**Planetary city controls**
-
-| KEY | ACTION |
-|:---:|---|
-| `W` `A` `S` `D` | Move |
-| `SHIFT` | Run |
-| `MOUSE` | Look around |
-| `V` | Switch camera perspective |
-| `E` | Interact / enter or exit |
-
-**Grand Library controls:** `W` `A` `S` `D` to wander, drag to look around, click a glowing book to read, and select **My Infinite Books** to open your archive.
-
----
-
-<div align="center">
-
-### 06 / THE ENGINE
-
-# BUILT FOR A DIFFERENT KIND OF WEB
-
-![React](https://img.shields.io/badge/React-17132C?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-17132C?style=for-the-badge&logo=typescript&logoColor=3178C6)
-![Three.js](https://img.shields.io/badge/Three.js-17132C?style=for-the-badge&logo=threedotjs&logoColor=FFFFFF)
-![Vite](https://img.shields.io/badge/Vite-17132C?style=for-the-badge&logo=vite&logoColor=BD9BFF)
-![Vercel](https://img.shields.io/badge/Vercel-17132C?style=for-the-badge&logo=vercel&logoColor=FFFFFF)
-
-</div>
-
-**Planetary frontend:** React + TypeScript + Vite  
-**Planetary 3D:** Three.js + React Three Fiber + Drei  
-**Grand Library:** standalone HTML + JavaScript + Three.js + CSS  
-**Persistence:** browser localStorage for the planetary experience; browser-local IndexedDB for Infinite Books  
-**Hosting:** Vercel for the planetary frontend; the standalone library can be served locally
-
----
-
-<div align="center">
-
-### 07 / LAUNCH SEQUENCE
-
-# START EXPLORING
-
-</div>
-
-**Planetary universe**
+### Open the doors locally
 
 ```bash
 git clone https://github.com/oishipaul45-engineer/AETHERA.git
-cd AETHERA/frontend
-npm install
-npm run dev
+cd AETHERA/AETHERA-3D-LIBRARY
+python -m http.server 8811
 ```
 
-**Grand Library + Infinite Books** (from the repository root)
+Then open **http://127.0.0.1:8811/index.html** in your browser. Keep the terminal running while you explore.
 
-```bash
-cd AETHERA-3D-LIBRARY
-python -m http.server 8811 --bind 127.0.0.1
-```
-
-Then open `http://127.0.0.1:8811/index.html`.
-
-**Planetary production build:** run `npm run build` inside `frontend/`.
-
-> The live Vercel link above refers to the planetary frontend. Adding the library folder to GitHub does not automatically deploy it to that URL.
+<br>
 
 ---
 
 <div align="center">
 
-### 08 / THE NEXT FRONTIER
+<sub>CHAPTER V — STILL UNWRITTEN</sub>
 
-# A UNIVERSE THAT KEEPS EXPANDING
+## THE NEXT PAGES
 
 </div>
 
-- [x] Immersive 3D planetary universe
-- [x] Interactive planets and connections
-- [x] Walkable 3D city environment
-- [x] First-person and third-person exploration
-- [x] Five category-specific activities
-- [x] Atmospheric, explorable Grand Library
-- [x] Infinite Books editor with 12 page types
-- [x] Browser-local book storage and backup import/export
-- [ ] Five fully distinct city environments
-- [ ] Deeper physical 3D interactions
-- [ ] Living characters and transportation
-- [ ] Accounts and cloud synchronization
-- [ ] AI-assisted idea connections
+- [x] Immersive 3D library and interactive exploration
+- [x] Infinite Books with 12 page types
+- [x] Animated page turns and optional page sound
+- [x] Attachments, drawings, and supported voice recording
+- [x] Browser-local saving and backup import/export
+- [ ] More lifelike book and page physics
+- [ ] Richer handwriting and multimedia tools
+- [ ] Deeper discoveries within the library
+- [ ] Optional accounts and cloud synchronization
 
-> **Current status:** AETHERA is an evolving prototype. The five planetary categories currently share a foundational city environment. The Grand Library and Infinite Books are separate working experiences. User-created content is browser-local rather than cloud-synced.
+<sub>AETHERA is an evolving prototype. Features marked as upcoming are not yet implemented.</sub>
+
+<br>
 
 ---
 
 <div align="center">
 
-# âœ¦ YOUR UNIVERSE IS WAITING âœ¦
+### ✦ THE END OF THIS PAGE IS NOT THE END OF THE STORY ✦
 
-**Every thought is a world. Every connection is a constellation.**
+# A E T H E R A
 
-[![Explore AETHERA](https://img.shields.io/badge/EXPLORE_AETHERA-ENTER_THE_UNIVERSE-C8AFFF?style=for-the-badge&labelColor=171129)](https://aethera-nine.vercel.app/)
+**THE LIBRARY OF UNSPOKEN THINGS**
 
-Made with imagination by **[Oishi Paul](https://github.com/oishipaul45-engineer)**
+*For everything you felt, imagined, or never found the words to say.*
 
-### BEYOND IMAGINATION.
+<br>
+
+Created by **[Oishi Paul](https://github.com/oishipaul45-engineer)**
+
+<sub>✧ &nbsp; OPEN A BOOK. LEAVE A LITTLE OF YOURSELF INSIDE. &nbsp; ✧</sub>
 
 </div>
