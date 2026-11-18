@@ -1,3 +1,4 @@
+
 import { createClient } from "@neondatabase/neon-js";
 import "./aethera-auth.css";
 
@@ -317,6 +318,8 @@ accountButton.addEventListener("click", async () => {
 window.AetheraAuth = {
   open: showAuth,
   getUser: () => currentUser,
+  getClient: () => neon,
+  getSession: () => neon ? neon.auth.getSession() : null,
   requireLogin(action) {
     if (currentUser) {
       if (typeof action === "function") action();
@@ -342,3 +345,5 @@ if (neon) {
       renderAccountButton();
     });
 }
+
+import('./aethera-cloud.js').catch(console.error);
