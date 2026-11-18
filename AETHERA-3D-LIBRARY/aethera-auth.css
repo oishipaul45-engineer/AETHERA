@@ -1,0 +1,254 @@
+﻿#aethera-auth-root {
+  position: relative;
+  z-index: 2147483646;
+  font-family: Georgia, serif;
+}
+
+.aa-backdrop[hidden] {
+  display: none !important;
+}
+
+.aa-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(9, 5, 16, .88);
+  backdrop-filter: blur(22px);
+}
+
+.aa-panel {
+  position: relative;
+  width: min(100%, 460px);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 44px 38px 34px;
+  color: #f6e9d2;
+  text-align: center;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(179, 126, 69, .17),
+      transparent 65%
+    ),
+    linear-gradient(145deg, #241927, #100e17);
+  border: 1px solid rgba(226, 184, 125, .28);
+  border-radius: 18px;
+  box-shadow:
+    0 40px 110px rgba(0,0,0,.7),
+    inset 0 0 80px rgba(203,146,75,.04);
+}
+
+.aa-close {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  border: 0;
+  background: none;
+  color: #c8ad8b;
+  font-size: 29px;
+  cursor: pointer;
+}
+
+.aa-symbol {
+  color: #d8ae71;
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.aa-brand {
+  color: #e4bd84;
+  letter-spacing: .36em;
+  font-size: 18px;
+}
+
+.aa-kicker {
+  color: #bba487;
+  font: 10px Arial, sans-serif;
+  letter-spacing: .23em;
+  margin-top: 10px;
+}
+
+.aa-panel h1 {
+  margin: 32px 0 10px;
+  font-size: clamp(27px, 5vw, 38px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.aa-subtitle {
+  color: #bfb0a7;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+#aa-form {
+  text-align: left;
+}
+
+#aa-form label {
+  display: block;
+  margin: 15px 0 7px;
+  color: #ddc7a8;
+  font: 12px Arial, sans-serif;
+}
+
+#aa-form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(219, 185, 144, .25);
+  background: rgba(255,255,255,.045);
+  color: #fff;
+  font: 14px Arial, sans-serif;
+  outline: none;
+}
+
+#aa-form input:focus {
+  border-color: #d7ae78;
+}
+
+.aa-primary,
+.aa-google {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font: 13px Arial, sans-serif;
+  transition: transform .2s, opacity .2s;
+}
+
+.aa-primary {
+  margin-top: 25px;
+  border: none;
+  background: linear-gradient(110deg, #e5c493, #bd8e55);
+  color: #24170e;
+  font-weight: bold;
+}
+
+.aa-google {
+  border: 1px solid rgba(229, 196, 147, .35);
+  background: rgba(255,255,255,.04);
+  color: #f6e9d2;
+}
+
+.aa-primary:hover,
+.aa-google:hover {
+  transform: translateY(-2px);
+}
+
+.aa-primary:disabled,
+.aa-google:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+.aa-divider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 23px 0;
+  color: #a99782;
+  font: 11px Arial, sans-serif;
+}
+
+.aa-divider:before,
+.aa-divider:after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,.12);
+}
+
+.aa-google-icon {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.aa-switch {
+  margin: 22px 0;
+  color: #bcae9d;
+  font: 12px Arial, sans-serif;
+}
+
+.aa-switch button {
+  color: #e8c28b;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+}
+
+.aa-message {
+  color: #f2c68c;
+  font: 12px Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.aa-footnote {
+  margin-top: 28px;
+  color: #897968;
+  font: 9px Arial, sans-serif;
+  letter-spacing: .18em;
+}
+
+.aa-account-button {
+  position: fixed;
+  z-index: 2147483645;
+  top: 18px;
+  right: 18px;
+  padding: 11px 18px;
+  border: 1px solid rgba(225,183,121,.45);
+  border-radius: 30px;
+  background: rgba(19,14,24,.87);
+  color: #f1d5a7;
+  font: 12px Arial, sans-serif;
+  letter-spacing: .05em;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 600px) {
+  .aa-panel {
+    padding: 38px 23px 26px;
+  }
+
+  .aa-account-button {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* AETHERA account button positioning */
+#aa-account-button,
+#aethera-account-button,
+.aethera-account-button {
+    position: fixed !important;
+    top: 85px !important;
+    right: 24px !important;
+    left: auto !important;
+    z-index: 9999 !important;
+}
+
+
+/* FIX: Keep Sign In separate from Sound */
+.aa-account-button {
+    position: fixed !important;
+    top: 85px !important;
+    right: 24px !important;
+    left: auto !important;
+    z-index: 2147483645 !important;
+}
+
+@media (max-width: 600px) {
+    .aa-account-button {
+        top: 75px !important;
+        right: 12px !important;
+    }
+}
