@@ -17,3 +17,9 @@
 #aethera-infinite-root .ai-editor.ai-show {
     display: block !important;
 }
+
+/* Prevent notifications from blocking Infinite Books */
+#ai-toast {
+  pointer-events: none !important;
+}
+
