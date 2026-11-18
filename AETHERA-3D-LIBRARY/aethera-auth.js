@@ -1,3 +1,4 @@
+
 import { createClient } from "@neondatabase/neon-js";
 import "./aethera-auth.css";
 
@@ -163,6 +164,7 @@ async function completeAuth() {
   const user = await refreshSession();
 
   if (!user) return false;
+  window.dispatchEvent(new Event("aethera:signin"));
 
   hideAuth();
   renderAccountButton();
@@ -306,6 +308,7 @@ accountButton.addEventListener("click", async () => {
     checkResult(result);
 
     currentUser = null;
+    window.dispatchEvent(new Event("aethera:signout"));
     renderAccountButton();
     showAuth();
   } catch (error) {
@@ -317,6 +320,8 @@ accountButton.addEventListener("click", async () => {
 window.AetheraAuth = {
   open: showAuth,
   getUser: () => currentUser,
+  getClient: () => neon,
+  getSession: () => neon ? neon.auth.getSession() : null,
   requireLogin(action) {
     if (currentUser) {
       if (typeof action === "function") action();
@@ -335,10 +340,13 @@ renderAccountButton();
 
 if (neon) {
   refreshSession()
-    .then(() => renderAccountButton())
+    .then((user) => { renderAccountButton(); if (user?.id) window.dispatchEvent(new Event("aethera:signin")); })
     .catch((error) => {
       console.warn("Could not restore Neon session:", error);
       currentUser = null;
       renderAccountButton();
     });
 }
+
+import('./aethera-cloud.js').catch(console.error);
+
